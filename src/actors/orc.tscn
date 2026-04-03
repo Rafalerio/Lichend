@@ -122,11 +122,11 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l7l08"]
-size = Vector2(16, 23)
+size = Vector2(16, 22.5)
 
 [node name="orc" type="CharacterBody2D" unique_id=236076056]
 script = ExtResource("1_hqn1u")
@@ -135,13 +135,20 @@ script = ExtResource("1_hqn1u")
 shape = SubResource("CapsuleShape2D_l7l08")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=84000654]
-position = Vector2(0, -3)
+position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_2g484")
-animation = &"dead"
+animation = &"walk"
 
-[node name="hitbox" type="Area2D" parent="." unique_id=392842843]
+[node name="Hitbox" type="Area2D" parent="." unique_id=392842843]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=104947671]
-position = Vector2(0, -1.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=104947671]
+position = Vector2(0, -1.75)
 shape = SubResource("RectangleShape2D_l7l08")
 debug_color = Color(0.99518174, 0, 0.21747762, 0.41960785)
+
+[node name="WallDetector" type="RayCast2D" parent="." unique_id=1857004]
+target_position = Vector2(-20, 0)
+
+[node name="GroundDetector" type="RayCast2D" parent="." unique_id=1515256316]
+position = Vector2(-10, 7)
+target_position = Vector2(0, 10)

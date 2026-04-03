@@ -1,141 +1,126 @@
 extends CharacterBody2D
 
-enum PlayerState{
-	idle,
-	walk,
-	jump,
-	fall,
-	dead
-}
+enum PlayerState { IDLE, WALK, JUMP, FALL, DEAD }
 
-# Criação da variavel para a referencia do nó de animações.
 @onready var anima: AnimatedSprite2D = $AnimatedSprite2D
 
 @export var max_speed = 100.0
-@export var acceleration = 100
-@export var deceleration = 100
+@export var acceleration = 800.0 # Aumentei para o controle ficar mais responsivo
+@export var deceleration = 1000.0 # Aumentei para ele parar mais rápido
 const JUMP_VELOCITY = -300.0
 
 var direction = 0
 var status: PlayerState
 
-func move(delta):
-	update_direction()
-	
-	if direction:
-		velocity.x = move_toward(velocity.x, direction * max_speed, acceleration * delta)
-	else:
-		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
-
 func _ready() -> void:
 	go_to_idle_state()
 
 func _physics_process(delta: float) -> void:
-	
-	# Adiciona a gravidade.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
 	match status:
-		PlayerState.idle:
-			idle_state(delta)
-		PlayerState.walk:
-			walk_state(delta)
-		PlayerState.jump:
-			jump_state(delta)
-		PlayerState.fall:
-			fall_state(delta)
-		PlayerState.dead:
-			dead_state(delta)
+		PlayerState.IDLE: idle_state(delta)
+		PlayerState.WALK: walk_state(delta)
+		PlayerState.JUMP: jump_state(delta)
+		PlayerState.FALL: fall_state(delta)
+		PlayerState.DEAD: dead_state(delta)
 		
 	move_and_slide()
 
+# --- FUNÇÕES DE TRANSIÇÃO DE ESTADO ---
+
 func go_to_idle_state():
-	status = PlayerState.idle
+	status = PlayerState.IDLE
 	anima.play("idle")
 
 func go_to_walk_state():
-	status = PlayerState.walk
+	status = PlayerState.WALK
 	anima.play("walk")
 
 func go_to_jump_state():
-	status = PlayerState.jump
+	status = PlayerState.JUMP
 	anima.play("jump")
 	velocity.y = JUMP_VELOCITY
 	
 func go_to_fall_state():
-	status = PlayerState.fall
+	status = PlayerState.FALL
 	anima.play("fall")
 
 func go_to_dead_state():
-	status = PlayerState.dead
+	status = PlayerState.DEAD
 	anima.play("dead")
-	velocity =  Vector2.ZERO
+	velocity = Vector2.ZERO
+
+# --- LÓGICA DOS ESTADOS ---
 
 func idle_state(delta):
 	move(delta)
 	if velocity.x != 0:
 		go_to_walk_state()
-		return
-	
-	if Input.is_action_just_pressed("jump"):
+	elif Input.is_action_just_pressed("jump") and is_on_floor():
 		go_to_jump_state()
-		return
 
 func walk_state(delta):
 	move(delta)
 	if velocity.x == 0:
 		go_to_idle_state()
-		return
-	
-	if Input.is_action_just_pressed("jump"):
+	elif Input.is_action_just_pressed("jump") and is_on_floor():
 		go_to_jump_state()
-		return
-		
-	if !is_on_floor(): 
+	elif not is_on_floor(): 
 		go_to_fall_state()
-		return
 
 func jump_state(delta):
 	move(delta)
-	
 	if velocity.y > 0:
 		go_to_fall_state()
-		return
 
 func fall_state(delta):
 	move(delta)
-	
 	if is_on_floor():
 		if velocity.x == 0:
 			go_to_idle_state()
 		else:
 			go_to_walk_state()
-		return
 
-func dead_state(delta):
-	pass
+func dead_state(_delta):
+	pass # Fica parado esperando o game over/restart
+
+# --- MOVIMENTO E UTILIDADES ---
+
+func move(delta):
+	update_direction()
+	if direction != 0:
+		velocity.x = move_toward(velocity.x, direction * max_speed, acceleration * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
 
 func update_direction():
 	direction = Input.get_axis("left", "right")
-	
 	if direction < 0:
 		anima.flip_h = true
 	elif direction > 0:
 		anima.flip_h = false
 
-func temp(delta: float) -> void:
-	# Adiciona a gravidade.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+# --- COLISÕES ---
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if velocity.y > 0: 
-		#inimigo morre
-		area.get_parent().take_damage()
+	if status == PlayerState.DEAD: return
+	
+	# Verifica se está caindo
+	var is_falling = velocity.y > 0
+	
+	# Verifica se o Player está fisicamente acima do Inimigo.
+	# global_position.y pega a posição exata no mundo. Quanto menor o Y, mais alto está.
+	var is_above_enemy = global_position.y < area.global_position.y
+	
+	if is_falling and is_above_enemy: 
+		var enemy = area.get_parent()
+		if enemy.has_method("take_damage"):
+			enemy.take_damage()
+			# Quica no inimigo
+			velocity.y = JUMP_VELOCITY * 0.8 
+			go_to_jump_state()
 	else:
+		# Se bateu de lado, por baixo, ou não estava caindo, o player morre
 		go_to_dead_state()
