@@ -1,43 +1,77 @@
 extends Area2D
 
-@export var speed: float = 600.0
-var direction: int = 1
+@export var speed: float = 400.0
+var direction: int = 10
 var damage: int = 1
 
-func _ready():
-	# Adiciona ao grupo para limitarmos 3 balas na tela
-	add_to_group("PlayerBullets")
+var has_exploded: bool = false
 
-func setup(pos: Vector2, _direction: int, _damage: int):
-	global_position = pos
-	direction = _direction
-	damage = _damage
+# Variáveis para guardar os nomes corretos das animações
+var anim_travel: String = "default"
+var anim_hit: String = "hit"
+
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+
+func _ready() -> void:
+	# Retiramos o anim.play("default") daqui, 
+	# pois agora a função setup() vai decidir qual animação tocar!
+	pass
+
+func setup(spawn_position: Vector2, shoot_direction: int, damage_value: int):
+	global_position = spawn_position
+	direction = shoot_direction
+	damage = damage_value
 	
-	# Muda a escala visual e velocidade da bala baseado na carga
-	if damage == 3:
-		scale = Vector2(1.5, 1.5)
-		speed = 700.0
-	elif damage == 7:
-		scale = Vector2(2.5, 2.5)
-		speed = 850.0
+	if direction < 0:
+		anim.flip_h = true
+		
+	# --- DEFININDO OS SPRITES POR NÍVEL DE CARGA ---
+	if damage >= 7:
+		# Tiro nível máximo
+		anim_travel = "default3"
+		anim_hit = "hit3"
+	elif damage >= 3:
+		# Tiro nível médio
+		anim_travel = "default2"
+		anim_hit = "hit2"
+	else:
+		# Tiro normal
+		anim_travel = "default"
+		anim_hit = "hit"
+		
+	# Toca a animação de voo escolhida!
+	anim.play(anim_travel)
 
 func _physics_process(delta: float) -> void:
-	position.x += speed * direction * delta
-
-func _on_body_entered(body: Node2D) -> void:
-	# Destroi o tiro se bater em uma parede/chão
-	if body is TileMap or body is StaticBody2D:
-		# Adicione lógica de partículas ou animação de impacto aqui
-		queue_free()
+	if not has_exploded:
+		position.x += speed * direction * delta
 
 func _on_area_entered(area: Area2D) -> void:
-	# Acertar a Hitbox do Inimigo
-	var enemy = area.get_parent()
-	if enemy.has_method("take_damage"):
-		enemy.take_damage(damage)
-		# Adicione impacto visual / hit stop aqui
-		queue_free()
+	if area.is_in_group("PlayerBullets"):
+		return
+		
+	var parent = area.get_parent()
+	if parent and parent.has_method("take_damage"):
+		parent.take_damage(damage)
+	
+	explode()
+
+@warning_ignore("unused_parameter")
+func _on_body_entered(body: Node2D) -> void:
+	explode()
+
+func explode():
+	if has_exploded: return
+	has_exploded = true
+	
+	speed = 0 
+	set_deferred("monitoring", false) 
+	set_deferred("monitorable", false) 
+	
+	# Toca a animação de impacto correspondente ao tamanho do tiro!
+	anim.play(anim_hit) 
+	await anim.animation_finished 
+	queue_free() 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	# Limpa da memória quando sai da tela
 	queue_free()
