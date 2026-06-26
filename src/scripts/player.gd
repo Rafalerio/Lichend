@@ -3,20 +3,19 @@ extends CharacterBody2D
 enum PlayerState { IDLE, WALK, JUMP, FALL, DASH, HURT, DEAD }
 
 @onready var anima: AnimatedSprite2D = $AnimatedSprite2D
-const SHOT = preload("uid://ul47g5ryd1ge")
 
 @export var max_speed = 100.0
 @export var acceleration = 800.0
 @export var deceleration = 1000.0
 @export var dash_speed = 150.0
-@export var dash_duration = 0.25
-@export var dash_cooldown_time = 0.6 # Tempo de recarga do dash (Ajuste conforme necessário)
+@export var dash_duration = 0.35
+@export var dash_cooldown_time = 0.6 
 
-@export var max_health: int = 10
+@export var max_health: int = 1
 var current_health: int
 
 # --- ARMAS E TIROS ---
-@export var bullet_scene: PackedScene
+const BULLET_SCENE = preload("res://src/levels/bullet.tscn")
 var charge_timer: float = 0.0
 var is_charging: bool = false
 var shoot_cooldown: float = 0.0
@@ -29,12 +28,12 @@ var hurt_timer: float = 0.0
 const JUMP_VELOCITY = -300.0
 
 var direction = 0
-var last_facing_direction = 1 # 1 para direita, -1 para esquerda
+var last_facing_direction = 1
 var status: PlayerState
 
 var can_dash = true
 var dash_timer = 0.0
-var current_dash_cooldown = 0.0 # Controle interno do cooldown
+var current_dash_cooldown = 0.0 
 
 func _ready() -> void:
 	current_health = max_health
@@ -63,7 +62,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor() and status != PlayerState.DASH:
 		velocity += get_gravity() * delta
 	elif is_on_floor():
-		can_dash = true # Reseta o dash ao tocar no chão
+		can_dash = true 
 	
 	match status:
 		PlayerState.IDLE: idle_state(delta)
@@ -100,7 +99,7 @@ func go_to_dash_state():
 	if shoot_anim_timer <= 0: anima.play("dash")
 	can_dash = false
 	dash_timer = dash_duration
-	current_dash_cooldown = dash_cooldown_time # Aplica o cooldown
+	current_dash_cooldown = dash_cooldown_time 
 	
 	var dash_dir = direction
 	if dash_dir == 0: dash_dir = last_facing_direction
@@ -118,8 +117,14 @@ func go_to_hurt_state():
 
 func go_to_dead_state():
 	status = PlayerState.DEAD
+	velocity = Vector2.ZERO 
+	
 	anima.play("dead")
-	velocity = Vector2.ZERO
+	await anima.animation_finished 
+	
+	# Verifica se o Player ainda existe ativamente na árvore de cena antes de chamar a tela
+	if is_inside_tree():
+		get_tree().change_scene_to_file("res://src/levels/game_over.tscn")
 
 # --- LÓGICA DOS ESTADOS ---
 
@@ -229,7 +234,7 @@ func handle_shooting(delta):
 	
 	if Input.is_action_just_pressed("shoot"):
 		if active_bullets < 3 and shoot_cooldown <= 0:
-			fire_bullet(1) # Tiro normal
+			fire_bullet(1) 
 			shoot_cooldown = 0.15 
 		is_charging = true
 		charge_timer = 0.0
@@ -241,27 +246,24 @@ func handle_shooting(delta):
 		if is_charging:
 			if charge_timer >= 1.0: 
 				if active_bullets < 3:
-					fire_bullet(7) # Tiro carregado nível 2
+					fire_bullet(7) 
 			elif charge_timer >= 0.4: 
 				if active_bullets < 3:
-					fire_bullet(3) # Tiro carregado nível 1
+					fire_bullet(3) 
 			is_charging = false
 			charge_timer = 0.0
 
 func fire_bullet(damage_val: int):
 	shoot_anim_timer = 0.3 
 	
-	if bullet_scene:
-		var bullet = bullet_scene.instantiate()
-		get_tree().current_scene.add_child(bullet)
-		
-		bullet.add_to_group("PlayerBullets")
-		
-		# Define onde o tiro nasce (na frente do player)
-		var spawn_pos = global_position + Vector2(25 * last_facing_direction, 0)
-		
-		# Envia as informações essenciais para a bala se configurar
-		bullet.setup(spawn_pos, last_facing_direction, damage_val)
+	var bullet = BULLET_SCENE.instantiate()
+	get_tree().current_scene.add_child(bullet)
+	
+	bullet.add_to_group("PlayerBullets")
+	
+	# Posição calculada sem precisar de um nó Marker2D
+	var spawn_pos = global_position + Vector2(25 * last_facing_direction, 0)
+	bullet.setup(spawn_pos, last_facing_direction, damage_val)
 
 func update_base_animation():
 	match status:
@@ -292,7 +294,10 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if not is_invulnerable:
 		take_damage(1)
 		
-		# Efeito de repulsão (Knockback)
+		# Se o dano acima matou o player, interrompe o código para ele não ser jogado para trás nem virar HURT
+		if status == PlayerState.DEAD: 
+			return
+		
 		velocity.y = JUMP_VELOCITY * 0.6 
 		velocity.x = max_speed * -last_facing_direction * 1.5
 		go_to_hurt_state()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnn58uhwoyq2s"
-path="res://.godot/imported/Falling_(32 x 32).png-e37abe696bee6d2c67a7997130aceee3.ctex"
+uid="uid://c3x57t2cnr2uq"
+path="res://.godot/imported/lich_jump.png-5c982af78a8a57223cbb25d31957577d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/Falling_(32 x 32).png"
-dest_files=["res://.godot/imported/Falling_(32 x 32).png-e37abe696bee6d2c67a7997130aceee3.ctex"]
+source_file="res://assets/sprites/player/lich_jump.png"
+dest_files=["res://.godot/imported/lich_jump.png-5c982af78a8a57223cbb25d31957577d.ctex"]
 
 [params]
 

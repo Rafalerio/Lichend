@@ -72,6 +72,11 @@ func flash_damage():
 
 func go_to_dead_state():
 	status = OrcState.DEAD
-	anima.play("dead")
+	
+	# Desativa a hitbox para ele não machucar o player enquanto a animação toca
 	hitbox.set_deferred("monitoring", false)
 	hitbox.set_deferred("monitorable", false)
+	
+	anima.play("dead")
+	await anima.animation_finished # Espera a animação de morte terminar
+	queue_free() # Deleta o inimigo da memória e tira ele da cena

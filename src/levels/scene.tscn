@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cftm2cfok6rag" path="res://src/actors/player.tscn" id="1_7hxj7"]
 [ext_resource type="PackedScene" uid="uid://bcvg5odpv4jei" path="res://src/actors/camera.tscn" id="2_b05dk"]
-[ext_resource type="PackedScene" uid="uid://dhqu22ocmxqsp" path="res://src/actors/orc.tscn" id="3_43mjq"]
+[ext_resource type="PackedScene" uid="uid://dhqu22ocmxqsp" path="res://src/actors/enemy.tscn" id="3_43mjq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_43mjq"]
 size = Vector2(331.125, 15)

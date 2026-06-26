@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oxcjc74p0usb"
-path="res://.godot/imported/Jumping_(32 x 32).png-f14dd02d224e5ed3e92d7adbe4e74095.ctex"
+uid="uid://bgmgxj1ebn1jy"
+path="res://.godot/imported/lich_idle.png-f4a4f224767abab0a7f73e5359d26d0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/Jumping_(32 x 32).png"
-dest_files=["res://.godot/imported/Jumping_(32 x 32).png-f14dd02d224e5ed3e92d7adbe4e74095.ctex"]
+source_file="res://assets/sprites/player/lich_idle.png"
+dest_files=["res://.godot/imported/lich_idle.png-f4a4f224767abab0a7f73e5359d26d0e.ctex"]
 
 [params]
 

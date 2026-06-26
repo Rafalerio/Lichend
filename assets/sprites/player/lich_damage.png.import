@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dt2c1pktfeje3"
-path="res://.godot/imported/Running_(32 x 32).png-32f6508a88d6e7c829060358ba90b91d.ctex"
+uid="uid://c6l3e0rlfm0w6"
+path="res://.godot/imported/lich_damage.png-d5fa3b93cbdee45620bcd0430ac2d8dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/Running_(32 x 32).png"
-dest_files=["res://.godot/imported/Running_(32 x 32).png-32f6508a88d6e7c829060358ba90b91d.ctex"]
+source_file="res://assets/sprites/player/lich_damage.png"
+dest_files=["res://.godot/imported/lich_damage.png-d5fa3b93cbdee45620bcd0430ac2d8dc.ctex"]
 
 [params]
 

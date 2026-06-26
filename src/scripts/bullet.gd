@@ -56,3 +56,7 @@ func explode():
 	anim.play("hit") # Toca a animação de impacto
 	await anim.animation_finished # Espera a animação terminar
 	queue_free() # Destrói o tiro da memória
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()

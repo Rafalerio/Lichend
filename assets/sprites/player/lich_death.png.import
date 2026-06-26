@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfwnwcggeegqt"
-path="res://.godot/imported/Ground_Recovery_(32 x 32).png-03465c549420eab6bd4f7354bac1aa39.ctex"
+uid="uid://bgon8uco0oaum"
+path="res://.godot/imported/lich_death.png-736fdc6fdb24360b641460431b2b47b6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/Ground_Recovery_(32 x 32).png"
-dest_files=["res://.godot/imported/Ground_Recovery_(32 x 32).png-03465c549420eab6bd4f7354bac1aa39.ctex"]
+source_file="res://assets/sprites/player/lich_death.png"
+dest_files=["res://.godot/imported/lich_death.png-736fdc6fdb24360b641460431b2b47b6.ctex"]
 
 [params]
 

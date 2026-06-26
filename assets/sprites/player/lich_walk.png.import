@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chwapgomhodpx"
-path="res://.godot/imported/Ducking_(32 x 32).png-ede106e5c460b0219dc1d3b3896e8505.ctex"
+uid="uid://bpnersrotib6"
+path="res://.godot/imported/lich_walk.png-a745affd95ab74a7eb815d5a9c6d0b84.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/Ducking_(32 x 32).png"
-dest_files=["res://.godot/imported/Ducking_(32 x 32).png-ede106e5c460b0219dc1d3b3896e8505.ctex"]
+source_file="res://assets/sprites/player/lich_walk.png"
+dest_files=["res://.godot/imported/lich_walk.png-a745affd95ab74a7eb815d5a9c6d0b84.ctex"]
 
 [params]
 

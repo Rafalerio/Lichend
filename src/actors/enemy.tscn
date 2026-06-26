@@ -71,7 +71,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2g484")
 }],
-"loop": true,
+"loop": false,
 "name": &"dead",
 "speed": 5.0
 }, {
@@ -128,7 +128,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l7l08"]
 size = Vector2(16, 22.5)
 
-[node name="orc" type="CharacterBody2D" unique_id=236076056]
+[node name="enemy" type="CharacterBody2D" unique_id=236076056]
 script = ExtResource("1_hqn1u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=422889262]
@@ -137,7 +137,7 @@ shape = SubResource("CapsuleShape2D_l7l08")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=84000654]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_2g484")
-animation = &"walk"
+animation = &"dead"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=392842843]
 
