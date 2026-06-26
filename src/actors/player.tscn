@@ -156,11 +156,6 @@ animations = [{
 "loop": true,
 "name": &"walk",
 "speed": 12.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"wall",
-"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gdh0h"]
@@ -175,9 +170,8 @@ shape = SubResource("CapsuleShape2D_7oscb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1880843179]
 scale = Vector2(0.7500001, 0.78124994)
 sprite_frames = SubResource("SpriteFrames_iairh")
-animation = &"idle"
+animation = &"dash"
 autoplay = "idle"
-frame_progress = 0.30460194
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1133797764]
 
@@ -185,11 +179,5 @@ frame_progress = 0.30460194
 position = Vector2(0, 0.25)
 shape = SubResource("RectangleShape2D_gdh0h")
 debug_color = Color(0.98853666, 0, 0.30609444, 0.41960785)
-
-[node name="LeftWallDetector" type="RayCast2D" parent="." unique_id=1259516746]
-target_position = Vector2(-5, 0)
-
-[node name="RightWallDetector" type="RayCast2D" parent="." unique_id=805411511]
-target_position = Vector2(5, 0)
 
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]

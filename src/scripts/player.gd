@@ -1,20 +1,16 @@
 extends CharacterBody2D
 
-enum PlayerState { IDLE, WALK, JUMP, FALL, DASH, WALL, HURT, DEAD }
+enum PlayerState { IDLE, WALK, JUMP, FALL, DASH, HURT, DEAD }
 
 @onready var anima: AnimatedSprite2D = $AnimatedSprite2D
-@onready var left_wall_detector: RayCast2D = $LeftWallDetector
-@onready var right_wall_detector: RayCast2D = $RightWallDetector
+const SHOT = preload("uid://ul47g5ryd1ge")
 
 @export var max_speed = 100.0
 @export var acceleration = 800.0
 @export var deceleration = 1000.0
-@export var dash_speed = 300.0
+@export var dash_speed = 150.0
 @export var dash_duration = 0.25
-
-@export var wall_slide_speed = 80.0
-@export var wall_slide_acceleration = 500.0
-@export var wall_jump_pushback = 400.0
+@export var dash_cooldown_time = 0.6 # Tempo de recarga do dash (Ajuste conforme necessário)
 
 @export var max_health: int = 10
 var current_health: int
@@ -33,11 +29,12 @@ var hurt_timer: float = 0.0
 const JUMP_VELOCITY = -300.0
 
 var direction = 0
-var last_facing_direction = 1 # 1 for right, -1 for left
+var last_facing_direction = 1 # 1 para direita, -1 para esquerda
 var status: PlayerState
 
 var can_dash = true
 var dash_timer = 0.0
+var current_dash_cooldown = 0.0 # Controle interno do cooldown
 
 func _ready() -> void:
 	current_health = max_health
@@ -46,7 +43,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if invuln_timer > 0:
 		invuln_timer -= delta
-		# Piscar o sprite para dar feedback visual de i-frames
 		anima.visible = false if fmod(invuln_timer, 0.2) < 0.1 else true
 		if invuln_timer <= 0:
 			anima.visible = true
@@ -59,12 +55,15 @@ func _physics_process(delta: float) -> void:
 		if shoot_anim_timer <= 0:
 			update_base_animation()
 			
+	if current_dash_cooldown > 0:
+		current_dash_cooldown -= delta
+
 	handle_shooting(delta)
 
 	if not is_on_floor() and status != PlayerState.DASH:
 		velocity += get_gravity() * delta
 	elif is_on_floor():
-		can_dash = true # Reset dash when hitting the floor
+		can_dash = true # Reseta o dash ao tocar no chão
 	
 	match status:
 		PlayerState.IDLE: idle_state(delta)
@@ -72,7 +71,6 @@ func _physics_process(delta: float) -> void:
 		PlayerState.JUMP: jump_state(delta)
 		PlayerState.FALL: fall_state(delta)
 		PlayerState.DASH: dash_state(delta)
-		PlayerState.WALL: wall_state(delta)
 		PlayerState.HURT: hurt_state(delta)
 		PlayerState.DEAD: dead_state(delta)
 		
@@ -99,25 +97,24 @@ func go_to_fall_state():
 
 func go_to_dash_state():
 	status = PlayerState.DASH
-	if shoot_anim_timer <= 0: anima.play("dash") # Make sure there is a "dash" animation
+	if shoot_anim_timer <= 0: anima.play("dash")
 	can_dash = false
 	dash_timer = dash_duration
+	current_dash_cooldown = dash_cooldown_time # Aplica o cooldown
 	
-	# If not moving, dash in the direction we are facing
 	var dash_dir = direction
 	if dash_dir == 0: dash_dir = last_facing_direction
 	
-	velocity.y = 0 # Cancel vertical momentum for air dash
+	velocity.y = 0
 	velocity.x = dash_dir * dash_speed
 
 func go_to_hurt_state():
 	status = PlayerState.HURT
-	# Toca a animação de "hurt" se houver, ou mantém uma de pulo/queda
 	if anima.sprite_frames.has_animation("hurt"):
 		anima.play("hurt")
 	else:
 		anima.play("fall")
-	hurt_timer = 0.4 # Tempo em que perdemos controle durante o empurrão
+	hurt_timer = 0.4 
 
 func go_to_dead_state():
 	status = PlayerState.DEAD
@@ -132,7 +129,7 @@ func idle_state(delta):
 		go_to_walk_state()
 	elif Input.is_action_just_pressed("jump") and is_on_floor():
 		go_to_jump_state()
-	elif Input.is_action_just_pressed("dash") and can_dash:
+	elif Input.is_action_just_pressed("dash") and can_dash and current_dash_cooldown <= 0:
 		go_to_dash_state()
 
 func walk_state(delta):
@@ -141,14 +138,14 @@ func walk_state(delta):
 		go_to_idle_state()
 	elif Input.is_action_just_pressed("jump") and is_on_floor():
 		go_to_jump_state()
-	elif Input.is_action_just_pressed("dash") and can_dash:
+	elif Input.is_action_just_pressed("dash") and can_dash and current_dash_cooldown <= 0:
 		go_to_dash_state()
 	elif not is_on_floor(): 
 		go_to_fall_state()
 
 func jump_state(delta):
 	move(delta)
-	if Input.is_action_just_pressed("dash") and can_dash:
+	if Input.is_action_just_pressed("dash") and can_dash and current_dash_cooldown <= 0:
 		go_to_dash_state()
 		return
 		
@@ -157,17 +154,9 @@ func jump_state(delta):
 
 func fall_state(delta):
 	move(delta)
-	if Input.is_action_just_pressed("dash") and can_dash:
+	if Input.is_action_just_pressed("dash") and can_dash and current_dash_cooldown <= 0:
 		go_to_dash_state()
 		return
-		
-	# Transição para o estado da Parede (Wall Slide)
-	# Apenas permitimos agarrar na parede se estivermos caindo e empurrando contra ela
-	if (left_wall_detector.is_colliding() or right_wall_detector.is_colliding()) && is_on_wall():
-		var pushing_against_wall = (left_wall_detector.is_colliding() and direction < 0) or (right_wall_detector.is_colliding() and direction > 0)
-		if pushing_against_wall:
-			go_to_wall_state()
-			return
 			
 	if is_on_floor():
 		if velocity.x == 0:
@@ -175,54 +164,8 @@ func fall_state(delta):
 		else:
 			go_to_walk_state()
 
-func go_to_wall_state():
-	status = PlayerState.WALL
-	if shoot_anim_timer <= 0: anima.play("wall_slide") 
-	can_dash = true # Resetar dash também na parede (Opcional, comum em platformers)
-
-func wall_state(delta):
-	# Aplica a gravidade customizada: Deslizamento com aceleração limitada (fricção)
-	velocity.y = move_toward(velocity.y, wall_slide_speed, wall_slide_acceleration * delta)
-	
-	update_direction()
-	
-	var is_touching_wall = false
-	var wall_normal_x = 0
-	
-	if left_wall_detector.is_colliding():
-		is_touching_wall = true
-		wall_normal_x = 1 # O empurrão do salto será para a direita (+1)
-		anima.flip_h = true
-		last_facing_direction = -1
-	elif right_wall_detector.is_colliding():
-		is_touching_wall = true
-		wall_normal_x = -1 # O empurrão do salto será para a esquerda (-1)
-		anima.flip_h = false
-		last_facing_direction = 1
-		
-	# Transição de volta ao chão
-	if is_on_floor():
-		go_to_idle_state() if velocity.x == 0 else go_to_walk_state()
-		return
-		
-	# Transição se soltar a tecla direcional para a direção contrária da parede, ou a parede acabar
-	if not is_touching_wall or (wall_normal_x == 1 and direction > 0) or (wall_normal_x == -1 and direction < 0):
-		go_to_fall_state()
-		return
-		
-	# Wall Jump! (Aplica o impulso de pulo e queda saindo do estado)
-	if Input.is_action_just_pressed("jump"):
-		velocity.y = JUMP_VELOCITY
-		# Aplicamos o knockback na direção que a normal da parede aponta
-		velocity.x = wall_normal_x * wall_jump_pushback
-		
-		# Transferimos para o Jump State para lidar com o arco do salto 
-		go_to_jump_state()
-		return
-
 func dash_state(delta):
 	dash_timer -= delta
-	# Dash velocity is already set in go_to_dash_state. Just maintain it.
 	
 	if dash_timer <= 0:
 		if is_on_floor():
@@ -232,7 +175,6 @@ func dash_state(delta):
 
 func hurt_state(delta):
 	hurt_timer -= delta
-	# Adiciona um leve drag no ar para o knockback não ser infinito
 	velocity.x = move_toward(velocity.x, 0, deceleration * 0.5 * delta)
 	
 	if hurt_timer <= 0:
@@ -252,22 +194,21 @@ func take_damage(amount: int):
 	if current_health <= 0:
 		go_to_dead_state()
 	else:
-		# Acionamos o I-frame para evitar double hits em colisão de Area2D
 		is_invulnerable = true
 		invuln_timer = 1.0
 
 func add_health_capacity(amount: int):
 	max_health += amount
-	current_health += amount # Curamos o player ao pegar o item
+	current_health += amount 
 	print("Max HP aumentado! Vida Máxima: ", max_health)
 
 func flash_damage():
 	var tween = create_tween()
-	anima.modulate = Color(10, 10, 10, 1) # Hit flash branco
+	anima.modulate = Color(10, 10, 10, 1) 
 	tween.tween_property(anima, "modulate", Color.WHITE, 0.2)
 	
 func dead_state(_delta):
-	pass # Fica parado esperando o game over/restart
+	pass 
 
 # --- MOVIMENTO E UTILIDADES ---
 
@@ -279,8 +220,7 @@ func move(delta):
 		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
 
 func handle_shooting(delta):
-	# Evitamos atirar preso na parede ou já morto
-	if status == PlayerState.WALL or status == PlayerState.DEAD:
+	if status == PlayerState.DEAD:
 		is_charging = false
 		charge_timer = 0.0
 		return
@@ -289,8 +229,8 @@ func handle_shooting(delta):
 	
 	if Input.is_action_just_pressed("shoot"):
 		if active_bullets < 3 and shoot_cooldown <= 0:
-			fire_bullet(1)
-			shoot_cooldown = 0.15 # Cooldown minímo
+			fire_bullet(1) # Tiro normal
+			shoot_cooldown = 0.15 
 		is_charging = true
 		charge_timer = 0.0
 		
@@ -299,26 +239,28 @@ func handle_shooting(delta):
 		
 	if Input.is_action_just_released("shoot"):
 		if is_charging:
-			if charge_timer >= 1.0: # Tiro nível 3 (Dano 7)
+			if charge_timer >= 1.0: 
 				if active_bullets < 3:
-					fire_bullet(7)
-			elif charge_timer >= 0.4: # Tiro nível 2 (Dano 3)
+					fire_bullet(7) # Tiro carregado nível 2
+			elif charge_timer >= 0.4: 
 				if active_bullets < 3:
-					fire_bullet(3)
+					fire_bullet(3) # Tiro carregado nível 1
 			is_charging = false
 			charge_timer = 0.0
 
 func fire_bullet(damage_val: int):
-	# Substitui estado do sprite temporariamente (0.3 seg)
 	shoot_anim_timer = 0.3 
-	anima.play("shoot")
 	
 	if bullet_scene:
 		var bullet = bullet_scene.instantiate()
 		get_tree().current_scene.add_child(bullet)
 		
-		# Spawna a bala um pouco na frente do player
+		bullet.add_to_group("PlayerBullets")
+		
+		# Define onde o tiro nasce (na frente do player)
 		var spawn_pos = global_position + Vector2(25 * last_facing_direction, 0)
+		
+		# Envia as informações essenciais para a bala se configurar
 		bullet.setup(spawn_pos, last_facing_direction, damage_val)
 
 func update_base_animation():
@@ -328,7 +270,6 @@ func update_base_animation():
 		PlayerState.JUMP: anima.play("jump")
 		PlayerState.FALL: anima.play("fall")
 		PlayerState.DASH: anima.play("dash")
-		PlayerState.WALL: anima.play("wall_slide")
 		PlayerState.HURT:
 			if anima.sprite_frames.has_animation("hurt"): anima.play("hurt")
 			else: anima.play("fall")
@@ -348,27 +289,10 @@ func update_direction():
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if status == PlayerState.DEAD: return
 	
-	# Verifica se está caindo
-	var is_falling = velocity.y > 0
-	
-	# Verifica se o Player está fisicamente acima do Inimigo.
-	# global_position.y pega a posição exata no mundo. Quanto menor o Y, mais alto está.
-	var is_above_enemy = global_position.y < area.global_position.y
-	
-	if is_falling and is_above_enemy: 
-		var enemy = area.get_parent()
-		if enemy.has_method("take_damage"):
-			enemy.take_damage()
-			# Quica no inimigo
-			velocity.y = JUMP_VELOCITY * 0.8 
-			go_to_jump_state()
-	else:
-		# Se bateu de lado, por baixo, ou não estava caindo, no lugar de morrer de uma vez
-		# Nós tomamos dano do Inimigo. Supondo que ele dê 1 de dano por colisão:
-		if not is_invulnerable:
-			take_damage(1)
-			
-			# Empurrão para trás (Knockback base) para não colar no inimigo sofrendo 100 hit kills seguidos
-			velocity.y = JUMP_VELOCITY * 0.6 
-			velocity.x = max_speed * -last_facing_direction * 1.5
-			go_to_hurt_state()
+	if not is_invulnerable:
+		take_damage(1)
+		
+		# Efeito de repulsão (Knockback)
+		velocity.y = JUMP_VELOCITY * 0.6 
+		velocity.x = max_speed * -last_facing_direction * 1.5
+		go_to_hurt_state()

@@ -40,8 +40,6 @@ shape = SubResource("RectangleShape2D_waw57")
 
 [node name="player" parent="." unique_id=1111965173 instance=ExtResource("1_7hxj7")]
 position = Vector2(15, 176)
-acceleration = 400
-deceleration = 400
 
 [node name="camera" parent="." unique_id=1387297997 instance=ExtResource("2_b05dk")]
 position = Vector2(22, 168)
