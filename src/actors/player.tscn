@@ -3,10 +3,13 @@
 [ext_resource type="Script" uid="uid://d1elwoevbhy3j" path="res://src/scripts/player.gd" id="1_iairh"]
 [ext_resource type="Texture2D" uid="uid://bgon8uco0oaum" path="res://assets/sprites/player/lich_death.png" id="2_1e0ww"]
 [ext_resource type="Texture2D" uid="uid://dx4q2ylq8v8c8" path="res://assets/sprites/player/lich_dash.png" id="2_d8py6"]
+[ext_resource type="PackedScene" uid="uid://ul47g5ryd1ge" path="res://src/levels/bullet.tscn" id="2_wqefw"]
 [ext_resource type="Texture2D" uid="uid://c3x57t2cnr2uq" path="res://assets/sprites/player/lich_jump.png" id="3_d8py6"]
 [ext_resource type="Texture2D" uid="uid://c6l3e0rlfm0w6" path="res://assets/sprites/player/lich_damage.png" id="4_l3h4q"]
 [ext_resource type="Texture2D" uid="uid://bgmgxj1ebn1jy" path="res://assets/sprites/player/lich_idle.png" id="5_urqtb"]
 [ext_resource type="Texture2D" uid="uid://bpnersrotib6" path="res://assets/sprites/player/lich_walk.png" id="6_wqefw"]
+[ext_resource type="Texture2D" uid="uid://tdvf7bnpe5dp" path="res://assets/sprites/orb.png" id="8_urqtb"]
+[ext_resource type="Script" uid="uid://dvmk8salmeych" path="res://src/scripts/orb.gd" id="9_wqefw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7oscb"]
 radius = 4.0
@@ -314,6 +317,7 @@ size = Vector2(8, 14.5)
 
 [node name="player" type="CharacterBody2D" unique_id=1111965173 groups=["Player"]]
 script = ExtResource("1_iairh")
+bullet_scene = ExtResource("2_wqefw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1843246866]
 visible = false
@@ -322,10 +326,8 @@ shape = SubResource("CapsuleShape2D_7oscb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1880843179]
 scale = Vector2(0.7500001, 0.78124994)
 sprite_frames = SubResource("SpriteFrames_iairh")
-animation = &"dead"
+animation = &"idle"
 autoplay = "idle"
-frame = 7
-frame_progress = 1.0
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1133797764]
 visible = false
@@ -334,5 +336,13 @@ visible = false
 position = Vector2(0, 0.25)
 shape = SubResource("RectangleShape2D_gdh0h")
 debug_color = Color(0.98853666, 0, 0.30609444, 0.41960785)
+
+[node name="Orb" type="Sprite2D" parent="." unique_id=2051468596]
+position = Vector2(7, 4)
+scale = Vector2(0.6666667, 0.6666667)
+texture = ExtResource("8_urqtb")
+script = ExtResource("9_wqefw")
+
+[node name="ShootPoint" type="Marker2D" parent="Orb" unique_id=228734814]
 
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
