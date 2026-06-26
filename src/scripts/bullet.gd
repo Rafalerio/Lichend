@@ -1,62 +1,77 @@
 extends Area2D
 
 @export var speed: float = 400.0
-var direction: int = 1
+var direction: int = 10
 var damage: int = 1
+
+var has_exploded: bool = false
+
+# Variáveis para guardar os nomes corretos das animações
+var anim_travel: String = "default"
+var anim_hit: String = "hit"
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
-	# Assim que o tiro nasce, ele já começa a tocar a animação de voo
-	anim.play("default") 
+	# Retiramos o anim.play("default") daqui, 
+	# pois agora a função setup() vai decidir qual animação tocar!
+	pass
 
 func setup(spawn_position: Vector2, shoot_direction: int, damage_value: int):
 	global_position = spawn_position
 	direction = shoot_direction
 	damage = damage_value
 	
-	# Vira o tiro para o lado correto
 	if direction < 0:
 		anim.flip_h = true
 		
-	# LÓGICA DO TIRO CARREGÁVEL
+	# --- DEFININDO OS SPRITES POR NÍVEL DE CARGA ---
 	if damage >= 7:
-		# Tiro nível máximo: Maior e mais forte
-		anim.scale = Vector2(2.0, 2.0) 
-		# anim.play("tiro_carregado") # Use se tiver uma animação específica
+		# Tiro nível máximo
+		anim_travel = "default3"
+		anim_hit = "hit3"
 	elif damage >= 3:
 		# Tiro nível médio
-		anim.scale = Vector2(1.5, 1.5)
+		anim_travel = "default2"
+		anim_hit = "hit2"
 	else:
 		# Tiro normal
-		anim.scale = Vector2(1.0, 1.0)
+		anim_travel = "default"
+		anim_hit = "hit"
+		
+	# Toca a animação de voo escolhida!
+	anim.play(anim_travel)
 
 func _physics_process(delta: float) -> void:
-	# Move o tiro constantemente
-	position.x += speed * direction * delta
+	if not has_exploded:
+		position.x += speed * direction * delta
 
-# Conecte o sinal "area_entered" do nó Area2D para esta função
 func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("PlayerBullets"):
+		return
+		
 	var parent = area.get_parent()
 	if parent and parent.has_method("take_damage"):
 		parent.take_damage(damage)
 	
 	explode()
 
-# Conecte o sinal "body_entered" do nó Area2D para bater em paredes
+@warning_ignore("unused_parameter")
 func _on_body_entered(body: Node2D) -> void:
 	explode()
 
 func explode():
-	speed = 0 # Para o tiro no lugar
+	if has_exploded: return
+	has_exploded = true
 	
-	# Desativa a colisão para não dar dano duas vezes enquanto explode
+	speed = 0 
 	set_deferred("monitoring", false) 
+	set_deferred("monitorable", false) 
 	
-	anim.play("hit") # Toca a animação de impacto
-	await anim.animation_finished # Espera a animação terminar
-	queue_free() # Destrói o tiro da memória
-
+	# Toca a animação de impacto correspondente ao tamanho do tiro!
+	anim.play(anim_hit) 
+	await anim.animation_finished 
+	queue_free() 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()

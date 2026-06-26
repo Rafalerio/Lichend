@@ -7,7 +7,7 @@ enum PlayerState { IDLE, WALK, JUMP, FALL, DASH, HURT, DEAD }
 @export var max_speed = 100.0
 @export var acceleration = 800.0
 @export var deceleration = 1000.0
-@export var dash_speed = 150.0
+@export var dash_speed = 175.0
 @export var dash_duration = 0.35
 @export var dash_cooldown_time = 0.6 
 
@@ -228,28 +228,47 @@ func handle_shooting(delta):
 	if status == PlayerState.DEAD:
 		is_charging = false
 		charge_timer = 0.0
+		anima.modulate = Color.WHITE 
 		return
 		
 	var active_bullets = get_tree().get_nodes_in_group("PlayerBullets").size()
 	
+	# Quando o botão é APERTADO: Apenas zera e inicia o cronômetro (não atira mais!)
 	if Input.is_action_just_pressed("shoot"):
-		if active_bullets < 3 and shoot_cooldown <= 0:
-			fire_bullet(1) 
-			shoot_cooldown = 0.15 
 		is_charging = true
 		charge_timer = 0.0
 		
+	# Enquanto o botão é SEGURADO: Conta o tempo e faz o brilho visual
 	if Input.is_action_pressed("shoot") and is_charging:
 		charge_timer += delta
 		
+		if charge_timer >= 1.0:
+			if fmod(charge_timer * 15, 1.0) > 0.5:
+				anima.modulate = Color(2.0, 0.5, 0.5) 
+			else:
+				anima.modulate = Color.WHITE
+		elif charge_timer >= 0.4:
+			if fmod(charge_timer * 10, 1.0) > 0.5:
+				anima.modulate = Color(0.5, 0.5, 2.0)
+			else:
+				anima.modulate = Color.WHITE
+				
+	# Quando o botão é solto o jogo decide qual tiro usar baseado no tempo
 	if Input.is_action_just_released("shoot"):
 		if is_charging:
-			if charge_timer >= 1.0: 
-				if active_bullets < 3:
-					fire_bullet(7) 
-			elif charge_timer >= 0.4: 
-				if active_bullets < 3:
-					fire_bullet(3) 
+			anima.modulate = Color.WHITE # Restaura a cor do personagem
+			
+			# Só atira se não tiver atingido o limite de balas e o cooldown permitir
+			if active_bullets < 3 and shoot_cooldown <= 0:
+				if charge_timer >= 2.5: 
+					fire_bullet(7) # Tiro Máximo (Segurou muito)
+				elif charge_timer >= 1.5: 
+					fire_bullet(3) # Tiro Médio (Segurou um pouco)
+				else:
+					fire_bullet(1) # Tiro Normal (Apertou e soltou rápido)
+					
+				shoot_cooldown = 0.15 # Aplica o cooldown após o disparo
+				
 			is_charging = false
 			charge_timer = 0.0
 

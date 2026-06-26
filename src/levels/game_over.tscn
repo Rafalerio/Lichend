@@ -13,22 +13,26 @@ script = ExtResource("1_lrega")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=153175076]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 399.0
+offset_bottom = 250.0
 color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="." unique_id=1996742749]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 149.0
+offset_top = 67.0
+offset_right = 241.0
+offset_bottom = 90.0
 text = "Game Over!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2086514237]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 150.0
+offset_top = 103.0
+offset_right = 240.0
+offset_bottom = 169.0
 
 [node name="BtnContinuar" type="Button" parent="VBoxContainer" unique_id=103965246]
 layout_mode = 2

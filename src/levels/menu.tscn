@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://bjrh21bsvoxb8"]
+
+[ext_resource type="Script" uid="uid://c22qejve830li" path="res://src/scripts/menu.gd" id="1_y76l3"]
+[ext_resource type="AudioStream" uid="uid://60hk5v7ruurg" path="res://assets/audio/[Retro Game Music Pack] Title Screen.wav" id="2_gsdrr"]
+
+[node name="MenuPrincipal" type="Control" unique_id=1278657697]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y76l3")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=732640763]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="." unique_id=511318179]
+layout_mode = 0
+offset_left = 161.0
+offset_top = 32.0
+offset_right = 222.0
+offset_bottom = 55.0
+text = "LichEnd"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnJogar" type="Button" parent="." unique_id=1209080888]
+layout_mode = 0
+offset_left = 169.0
+offset_top = 90.0
+offset_right = 217.0
+offset_bottom = 121.0
+text = "Jogar"
+
+[node name="BtnSair" type="Button" parent="." unique_id=1203011978]
+layout_mode = 0
+offset_left = 173.0
+offset_top = 128.0
+offset_right = 211.0
+offset_bottom = 159.0
+text = "Sair"
+
+[node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=541880482]
+stream = ExtResource("2_gsdrr")
+volume_db = -15.0
+autoplay = true
+
+[connection signal="pressed" from="BtnJogar" to="." method="_on_btn_jogar_pressed"]
+[connection signal="pressed" from="BtnSair" to="." method="_on_btn_sair_pressed"]
