@@ -6,7 +6,7 @@ enum PlayerState { IDLE, WALK, JUMP, FALL, DASH, HURT, DEAD }
 @onready var shoot_point = $Orb/ShootPoint # Referência ao Marker2D
 @onready var sprite_lich = $Sprite2D_Lich
 @onready var orb = $Orb
-var orb_offset_x: float = 20.0
+var orb_offset_x: float = 10.0
 
 @export var bullet_scene: PackedScene # Arraste a cena do seu tiro no Inspetor
 @export var max_speed = 100.0
@@ -61,11 +61,6 @@ func _physics_process(delta: float) -> void:
 			
 	if current_dash_cooldown > 0:
 		current_dash_cooldown -= delta
-	
-	var move_direction = Input.get_axis("ui_left", "ui_right")
-	
-	if move_direction != 0:
-		update_facing(move_direction)
 
 	handle_shooting(delta)
 
@@ -234,18 +229,6 @@ func move(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
 
-func update_facing(direction: float):
-	# Inverte o sprite do Lich
-	sprite_lich.flip_h = direction < 0
-	
-	# Reposiciona a orbe para ficar na frente
-	if direction > 0:
-		# Olhando para a direita, a orbe fica à direita do Lich
-		orb.position.x = orb_offset_x
-	elif direction < 0:
-		# Olhando para a esquerda, a orbe fica à esquerda do Lich
-		orb.position.x = -orb_offset_x
-
 func handle_shooting(delta):
 	if status == PlayerState.DEAD:
 		is_charging = false
@@ -302,25 +285,9 @@ func fire_bullet(damage_val: int):
 	
 	bullet.add_to_group("PlayerBullets")
 	
-	# Posição calculada sem precisar de um nó Marker2D
-	var spawn_pos = global_position + Vector2(25 * last_facing_direction, 0)
+	var spawn_pos = orb.global_position 
+	
 	bullet.setup(spawn_pos, last_facing_direction, damage_val)
-
-func shoot():
-	if bullet_scene:
-		# 1. Cria a instância do tiro
-		var bullet = bullet_scene.instantiate()
-		
-		# 2. Define a posição inicial do tiro para a posição global do Marker2D do Orbe
-		bullet.global_position = shoot_point.global_position
-		
-		# 3. Define a direção do tiro (exemplo: atirando para a esquerda)
-		# Se o seu bullet.gd tiver uma variável de direção, você pode setar aqui.
-		# bullet.direction = Vector2(-1, 0) 
-		
-		# 4. Adiciona o tiro à cena principal (pai do Lich) para que 
-		# ele não se mova junto com o Lich depois de disparado.
-		get_parent().add_child(bullet)
 
 func update_base_animation():
 	match status:
@@ -339,9 +306,11 @@ func update_direction():
 	if direction < 0:
 		anima.flip_h = true
 		last_facing_direction = -1
+		orb.position.x = -orb_offset_x #Orbe vai para a esquerda
 	elif direction > 0:
 		anima.flip_h = false
 		last_facing_direction = 1
+		orb.position.x = orb_offset_x  #Orbe vai para a direita
 
 # --- COLISÕES ---
 
