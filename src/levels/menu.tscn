@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://bjrh21bsvoxb8"]
 
 [ext_resource type="Script" uid="uid://c22qejve830li" path="res://src/scripts/menu.gd" id="1_y76l3"]
-[ext_resource type="AudioStream" uid="uid://60hk5v7ruurg" path="res://assets/audio/[Retro Game Music Pack] Title Screen.wav" id="2_gsdrr"]
+[ext_resource type="AudioStream" uid="uid://60hk5v7ruurg" path="res://assets/audio/music/Title Screen.wav" id="2_gsdrr"]
 [ext_resource type="FontFile" uid="uid://b3yanlg0d3ld5" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_gymek"]
 [ext_resource type="Texture2D" uid="uid://csb4wr1xr3g75" path="res://assets/textures/title.jpeg" id="2_rdkdk"]
 [ext_resource type="Texture2D" uid="uid://tdvf7bnpe5dp" path="res://assets/sprites/orb.png" id="4_rdkdk"]
 [ext_resource type="AudioStream" uid="uid://cy8tme5n3syfp" path="res://assets/audio/sfx/beepmenu.wav" id="6_w14e6"]
+[ext_resource type="AudioStream" uid="uid://bgg1uxwd84ge1" path="res://assets/audio/sfx/menu_select.wav" id="7_gmiku"]
 
 [node name="Menu" type="Control" unique_id=1278657697]
 layout_mode = 3
@@ -73,6 +74,9 @@ autoplay = true
 
 [node name="MoveSound" type="AudioStreamPlayer" parent="." unique_id=427254209]
 stream = ExtResource("6_w14e6")
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="." unique_id=1684948329]
+stream = ExtResource("7_gmiku")
 
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/PlayButton" to="." method="_on_btn_jogar_pressed"]
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/QuitButton" to="." method="_on_btn_sair_pressed"]

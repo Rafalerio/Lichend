@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://b3yanlg0d3ld5" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_1r6yu"]
 [ext_resource type="Texture2D" uid="uid://tdvf7bnpe5dp" path="res://assets/sprites/orb.png" id="3_w3h87"]
 [ext_resource type="AudioStream" uid="uid://cy8tme5n3syfp" path="res://assets/audio/sfx/beepmenu.wav" id="4_w3h87"]
+[ext_resource type="AudioStream" uid="uid://bgg1uxwd84ge1" path="res://assets/audio/sfx/menu_select.wav" id="5_y0i7r"]
 
 [node name="Game Over" type="Control" unique_id=1579061937]
 layout_mode = 3
@@ -64,6 +65,9 @@ texture = ExtResource("3_w3h87")
 
 [node name="MoveSound" type="AudioStreamPlayer" parent="." unique_id=1863393359]
 stream = ExtResource("4_w3h87")
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="." unique_id=459989462]
+stream = ExtResource("5_y0i7r")
 
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/RetryButton" to="." method="_on_btn_continuar_pressed"]
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/MenuButton" to="." method="_on_btn_menu_pressed"]

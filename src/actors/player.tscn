@@ -12,8 +12,8 @@
 [ext_resource type="Script" uid="uid://dvmk8salmeych" path="res://src/scripts/orb.gd" id="9_wqefw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7oscb"]
-radius = 4.0
-height = 16.0
+radius = 6.0
+height = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l3h4q"]
 atlas = ExtResource("2_d8py6")
@@ -192,19 +192,19 @@ animations = [{
 "speed": 12.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 4.0,
 "texture": SubResource("AtlasTexture_8bs0b")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_uticr")
 }, {
-"duration": 1.0,
+"duration": 3.0,
 "texture": SubResource("AtlasTexture_qnob4")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_olup0")
 }, {
-"duration": 1.0,
+"duration": 5.0,
 "texture": SubResource("AtlasTexture_l81xe")
 }, {
 "duration": 1.0,
@@ -218,7 +218,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"dead",
-"speed": 14.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -320,13 +320,12 @@ script = ExtResource("1_iairh")
 bullet_scene = ExtResource("2_wqefw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1843246866]
-visible = false
+position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_7oscb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1880843179]
-scale = Vector2(0.7500001, 0.78124994)
 sprite_frames = SubResource("SpriteFrames_iairh")
-animation = &"idle"
+animation = &"dead"
 autoplay = "idle"
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1133797764]
@@ -338,7 +337,7 @@ shape = SubResource("RectangleShape2D_gdh0h")
 debug_color = Color(0.98853666, 0, 0.30609444, 0.41960785)
 
 [node name="Orb" type="Sprite2D" parent="." unique_id=2051468596]
-position = Vector2(7, 4)
+position = Vector2(10, 4)
 scale = Vector2(0.6666667, 0.6666667)
 texture = ExtResource("8_urqtb")
 script = ExtResource("9_wqefw")

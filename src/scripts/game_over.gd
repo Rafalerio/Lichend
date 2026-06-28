@@ -6,6 +6,7 @@ extends Control
 ]
 @onready var selector: Sprite2D = $SelectorIcon
 @onready var move_sound: AudioStreamPlayer = $MoveSound
+@onready var select_sound: AudioStreamPlayer = $SelectSound
 
 var is_option_selected: bool = false
 var offset_x: float = 24.0 
@@ -49,9 +50,10 @@ func _move_selector_to(target_button: Button, instant: bool) -> void:
 func _on_button_selected(button: Button) -> void:
 	if is_option_selected: return
 	is_option_selected = true 
+	select_sound.play()
 	
 	# Efeito de piscar ao selecionar
-	var flash_tween = create_tween().set_loops(5)
+	var flash_tween = create_tween().set_loops(8)
 	flash_tween.tween_property(button, "modulate:a", 0.0, 0.06)
 	flash_tween.tween_property(button, "modulate:a", 1.0, 0.06)
 	
