@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://b62kvnukxgjd6"]
 
 [ext_resource type="Script" uid="uid://ci1vol3yn2ilv" path="res://src/scripts/game_over.gd" id="1_lrega"]
+[ext_resource type="FontFile" uid="uid://b3yanlg0d3ld5" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_1r6yu"]
+[ext_resource type="Texture2D" uid="uid://tdvf7bnpe5dp" path="res://assets/sprites/orb.png" id="3_w3h87"]
+[ext_resource type="AudioStream" uid="uid://cy8tme5n3syfp" path="res://assets/audio/sfx/beepmenu.wav" id="4_w3h87"]
 
 [node name="Game Over" type="Control" unique_id=1579061937]
 layout_mode = 3
@@ -11,36 +14,56 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lrega")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=153175076]
-layout_mode = 0
-offset_right = 399.0
-offset_bottom = 250.0
+[node name="Background" type="ColorRect" parent="." unique_id=153175076]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="." unique_id=1996742749]
-layout_mode = 0
-offset_left = 149.0
-offset_top = 67.0
-offset_right = 241.0
-offset_bottom = 90.0
+[node name="MainCenter" type="CenterContainer" parent="." unique_id=406860411]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VerticalStack" type="VBoxContainer" parent="MainCenter" unique_id=1027368581]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="MainCenter/VerticalStack" unique_id=1996742749]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1r6yu")
 text = "Game Over!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2086514237]
-layout_mode = 0
-offset_left = 150.0
-offset_top = 103.0
-offset_right = 240.0
-offset_bottom = 169.0
-
-[node name="BtnContinuar" type="Button" parent="VBoxContainer" unique_id=103965246]
+[node name="MenuOptions" type="VBoxContainer" parent="MainCenter/VerticalStack" unique_id=2086514237]
 layout_mode = 2
+
+[node name="RetryButton" type="Button" parent="MainCenter/VerticalStack/MenuOptions" unique_id=103965246]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1r6yu")
+theme_override_font_sizes/font_size = 8
 text = "Continuar"
+flat = true
 
-[node name="BtnMenu" type="Button" parent="VBoxContainer" unique_id=2071241856]
+[node name="MenuButton" type="Button" parent="MainCenter/VerticalStack/MenuOptions" unique_id=2071241856]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1r6yu")
+theme_override_font_sizes/font_size = 8
 text = "Tela Inicial"
+flat = true
 
-[connection signal="pressed" from="VBoxContainer/BtnContinuar" to="." method="_on_btn_continuar_pressed"]
-[connection signal="pressed" from="VBoxContainer/BtnMenu" to="." method="_on_btn_menu_pressed"]
+[node name="SelectorIcon" type="Sprite2D" parent="." unique_id=1197567333]
+texture = ExtResource("3_w3h87")
+
+[node name="MoveSound" type="AudioStreamPlayer" parent="." unique_id=1863393359]
+stream = ExtResource("4_w3h87")
+
+[connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/RetryButton" to="." method="_on_btn_continuar_pressed"]
+[connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/MenuButton" to="." method="_on_btn_menu_pressed"]

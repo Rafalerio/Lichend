@@ -4,7 +4,6 @@ enum PlayerState { IDLE, WALK, JUMP, FALL, DASH, HURT, DEAD }
 
 @onready var anima: AnimatedSprite2D = $AnimatedSprite2D
 @onready var shoot_point = $Orb/ShootPoint # Referência ao Marker2D
-@onready var sprite_lich = $Sprite2D_Lich
 @onready var orb = $Orb
 var orb_offset_x: float = 10.0
 
