@@ -1,65 +1,50 @@
 extends StaticBody2D
 
-@export var break_time: float = 0.4 # Tempo até quebrar após pisar
-@export var reset_time: float = 3.0 # Tempo para reaparecer
+@onready var anim_player = $AnimationPlayer
+@onready var solid_collision = $SolidCollision
+@onready var detector_collision = $PlayerDetector/DetectorCollision
 
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var player_detector: Area2D = $PlayerDetector # Detector no topo do bloco
-@onready var broken_timer: Timer = $BrokenTimer
-@onready var reset_timer: Timer = $ResetTimer
+# Tempos configuráveis no Inspector
+@export var break_time: float = 1.85 # Tempo que o bloco treme/racha antes de sumir
+@export var respawn_time: float = 3.0 # Tempo para o bloco voltar
 
-var is_broken = false
+var is_breaking: bool = false
 
-func _ready() -> void:
-	broken_timer.wait_time = break_time
-	reset_timer.wait_time = reset_time
-	# NOTA: Certifique-se de conectar os signals timeout() dos dois Timers
-	# para as duas funções abaixo lá pelo painel Node (Signals) do editor!
+func _ready():
+	# Garante que o bloco comece normal
+	reset_platform()
 
-func _process(_delta: float) -> void:
-	if is_broken:
+# ATENÇÃO: Conecte o sinal "body_entered" do seu nó PlayerDetector a esta função!
+func _on_player_detector_body_entered(body):
+	# Se o bloco já estiver quebrando ou sumido, ignora
+	if is_breaking:
 		return
 		
-	# Evita de "ficar iniciando" o timer de quebra várias vezes por frame
-	if not broken_timer.is_stopped(): 
-		return 
-	
-	# Checa se há colisão na área que fica sobre a plataforma (PlayerDetector)
-	if player_detector.has_overlapping_bodies():
-		var bodies = player_detector.get_overlapping_bodies()
-		for body in bodies:
-			if body.is_in_group("Player"):
-				# Dá um visual feedback usando TWEEN (Fica vermelho avisando perigo)
-				var tween = create_tween()
-				tween.tween_property(sprite, "modulate", Color(1, 0.5, 0.5, 1), break_time)
-				
-				# Inicia o timer seguindo as regras da arquitetura proposta
-				broken_timer.start()
-				break
+	# Verifica se quem pisou foi o player (você pode usar grupos ou nome)
+	if body.name == "Player" or body.has_method("take_damage"):
+		start_breaking()
 
-func _on_broken_timer_timeout() -> void:
-	is_broken = true
+func start_breaking():
+	is_breaking = true
+	# Toca a animação da sprite sheet rachando
+	anim_player.play("break")
 	
-	# Muda o layer de collision da plataforma para ela não ser mais um chão sólido (Derruba o player)
-	# Supondo que "1" é a layer/mask base do mapa em seu projeto:
-	set_collision_layer_value(1, false) 
-	set_collision_mask_value(1, false)
-	
-	# Fade out dinâmico com Tween para desaparecer
-	var tween = create_tween()
-	tween.tween_property(sprite, "modulate", Color(1, 0.5, 0.5, 0), 0.2)
-	
-	# Inicia o timer que traz a plataforma de volta à vida
-	reset_timer.start()
+	# Cria um timer via código para o tempo de quebra
+	await get_tree().create_timer(break_time).timeout
+	break_platform()
 
-func _on_reset_timer_timeout() -> void:
-	is_broken = false
+func break_platform():
+	solid_collision.set_deferred("disabled", true)
+	detector_collision.set_deferred("disabled", true)
 	
-	# Retorna colisão para ser um chão sólido novamente
-	set_collision_layer_value(1, true)
-	set_collision_mask_value(1, true)
+	$Sprite2D.visible = false
+	await get_tree().create_timer(respawn_time).timeout
+	reset_platform()
+
+func reset_platform():
+	is_breaking = false
+	$Sprite2D.visible = true
+	anim_player.play("idle")
 	
-	# Retorna a cor original de forma transparente e dá um fade in
-	sprite.modulate = Color(1, 1, 1, 0)
-	var tween = create_tween()
-	tween.tween_property(sprite, "modulate", Color(1, 1, 1, 1), 0.3)
+	solid_collision.set_deferred("disabled", false)
+	detector_collision.set_deferred("disabled", false)

@@ -324,6 +324,7 @@ position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_7oscb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1880843179]
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_iairh")
 animation = &"dead"
 autoplay = "idle"
@@ -343,5 +344,3 @@ texture = ExtResource("8_urqtb")
 script = ExtResource("9_wqefw")
 
 [node name="ShootPoint" type="Marker2D" parent="Orb" unique_id=228734814]
-
-[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]

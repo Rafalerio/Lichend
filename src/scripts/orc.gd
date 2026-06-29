@@ -6,6 +6,7 @@ enum OrcState { WALK, DEAD }
 @onready var hitbox: Area2D = $Hitbox
 @onready var wall_detector: RayCast2D = $WallDetector
 @onready var ground_detector: RayCast2D = $GroundDetector
+@onready var damage_source: Area2D = $DamageSource
 
 const SPEED = 30.0
 
@@ -45,18 +46,18 @@ func walk_state(_delta):
 func flip():
 	direction *= -1
 	
+	# Inverte a animação visual
 	anima.flip_h = (direction == 1)
-	# OBS: Se ele foi desenhado olhando para a ESQUERDA, mude a linha acima para:
-	# anima.flip_h = (direction == -1)
 	
+	# Inverte o WallDetector e GroundDetector
 	wall_detector.target_position.x *= -1 
-	# Inverte para onde ele aponta
 	wall_detector.position.x *= -1       
-	 # Inverte de onde ele nasce
-	
 	ground_detector.position.x *= -1    
+	
+	# Inverte a hitbox
+	damage_source.position.x *= -1
 
-func take_damage(amount: int = 1):
+func take_damage(amount: int, attacker_x_pos: float = 0.0):
 	if status == OrcState.DEAD: return
 	
 	current_health -= amount

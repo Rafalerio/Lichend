@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c31q07ijax31r"]
+
+[ext_resource type="Script" uid="uid://cicjor0doymfj" path="res://src/scripts/spike.gd" id="1_iim6g"]
+[ext_resource type="Texture2D" uid="uid://cnj2uh6vt0sn8" path="res://assets/sprites/hazards.png" id="2_be10w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2qnbk"]
+size = Vector2(14, 8)
+
+[node name="Bloodspike" type="Area2D" unique_id=209785208]
+script = ExtResource("1_iim6g")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1165029501]
+texture = ExtResource("2_be10w")
+region_enabled = true
+region_rect = Rect2(15.902991, 6.708658, 16.13301, 10.253616)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=197473674]
+shape = SubResource("RectangleShape2D_2qnbk")

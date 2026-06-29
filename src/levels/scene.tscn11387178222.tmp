@@ -215,6 +215,3 @@ position = Vector2(2632, 136)
 
 [node name="BreakingPlatform6" parent="." unique_id=1657146717 instance=ExtResource("9_fu73o")]
 position = Vector2(2944, 184)
-
-[node name="enemy" parent="." unique_id=782275727 instance=ExtResource("3_43mjq")]
-position = Vector2(3888, 48)

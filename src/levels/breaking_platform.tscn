@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://dme8nmex1n1vf"]
+
+[ext_resource type="Script" uid="uid://g0gs1fflqpv6" path="res://src/scripts/breaking_platform.gd" id="1_5t2jq"]
+[ext_resource type="Texture2D" uid="uid://b3o815e2ps8to" path="res://assets/sprites/crumbling_block.png" id="2_5l1sp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4s2vh"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vu765"]
+size = Vector2(18, 18)
+
+[sub_resource type="Animation" id="Animation_18o6v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_caqiu"]
+resource_name = "break"
+length = 1.85
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.24, 0.48, 0.72, 0.96, 1.2, 1.44),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_r6cgx"]
+resource_name = "idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b0idc"]
+_data = {
+&"RESET": SubResource("Animation_18o6v"),
+&"break": SubResource("Animation_caqiu"),
+&"idle": SubResource("Animation_r6cgx")
+}
+
+[node name="BreakingPlatform" type="StaticBody2D" unique_id=1105818296]
+script = ExtResource("1_5t2jq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1771521504]
+texture = ExtResource("2_5l1sp")
+hframes = 8
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="SolidCollision" type="CollisionShape2D" parent="." unique_id=2132222681]
+shape = SubResource("RectangleShape2D_4s2vh")
+
+[node name="PlayerDetector" type="Area2D" parent="." unique_id=1266704580]
+
+[node name="DetectorCollision" type="CollisionShape2D" parent="PlayerDetector" unique_id=1931979622]
+shape = SubResource("RectangleShape2D_vu765")
+debug_color = Color(0.9957455, 0.061379686, 0, 0.41960785)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1732002075]
+libraries/ = SubResource("AnimationLibrary_b0idc")
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]

@@ -78,6 +78,14 @@ func _physics_process(delta: float) -> void:
 		PlayerState.DEAD: dead_state(delta)
 		
 	move_and_slide()
+	
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# Se o que o Lich encostou está no grupo "Spikes"
+		if collider and collider.is_in_group("Spikes"):
+			insta_kill()
 
 # --- FUNÇÕES DE TRANSIÇÃO DE ESTADO ---
 
@@ -192,11 +200,11 @@ func hurt_state(delta):
 		else:
 			go_to_fall_state()
 
-func take_damage(amount: int):
+func take_damage(amount: int, attacker_x_pos: float = global_position.x):
 	if status == PlayerState.DEAD or is_invulnerable: return
 	
 	current_health -= amount
-	print("Player sofreu dano! Vida atual: ", current_health)
+	print("Player sofreu dano de ", amount, "! Vida atual: ", current_health)
 	
 	flash_damage()
 	
@@ -205,6 +213,19 @@ func take_damage(amount: int):
 	else:
 		is_invulnerable = true
 		invuln_timer = 1.0
+		
+		# --- LÓGICA DE KNOCKBACK (EMPURRÃO) CENTRALIZADA ---
+		velocity.y = JUMP_VELOCITY * 0.6 
+		
+		# Calcula de qual lado o inimigo bateu para empurrar para o lado contrário
+		var push_direction = sign(global_position.x - attacker_x_pos)
+		
+		# Se bater exatamente no mesmo pixel, joga pra trás
+		if push_direction == 0:
+			push_direction = -last_facing_direction
+			
+		velocity.x = max_speed * push_direction * 1.5
+		go_to_hurt_state()
 
 func add_health_capacity(amount: int):
 	max_health += amount
@@ -218,6 +239,22 @@ func flash_damage():
 	
 func dead_state(_delta):
 	pass 
+
+func insta_kill():
+	# Se já estiver morto, ignora para não tocar a animação duas vezes
+	if status == PlayerState.DEAD: 
+		return
+	
+	print("Player caiu nos espinhos! Insta-death!")
+	
+	current_health = 0
+	is_invulnerable = false # Força a quebra da invulnerabilidade caso ele estivesse piscando
+	
+	# Opcional: Se quiser dar um flash vermelho escuro diferente do dano normal
+	anima.modulate = Color(10, 0, 0, 1) 
+	
+	# Chama o estado de morte que você já programou (que toca a animação e chama o game over)
+	go_to_dead_state()
 
 # --- MOVIMENTO E UTILIDADES ---
 
@@ -312,17 +349,3 @@ func update_direction():
 		orb.position.x = orb_offset_x  #Orbe vai para a direita
 
 # --- COLISÕES ---
-
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	if status == PlayerState.DEAD: return
-	
-	if not is_invulnerable:
-		take_damage(1)
-		
-		# Se o dano acima matou o player, interrompe o código para ele não ser jogado para trás nem virar HURT
-		if status == PlayerState.DEAD: 
-			return
-		
-		velocity.y = JUMP_VELOCITY * 0.6 
-		velocity.x = max_speed * -last_facing_direction * 1.5
-		go_to_hurt_state()
