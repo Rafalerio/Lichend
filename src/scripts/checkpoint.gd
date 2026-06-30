@@ -10,7 +10,7 @@ func _on_body_entered(body: Node2D) -> void:
 	# Se já estiver ativo, ignora
 	if is_active: return
 	
-	if body.name == "Player":
+	if body.name == "player":
 		is_active = true
 		anima.play("idle_on")
 		# Salva a posição DESTE checkpoint no nosso script Global!

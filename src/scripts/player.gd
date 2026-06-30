@@ -42,6 +42,10 @@ var current_dash_cooldown = 0.0
 func _ready() -> void:
 	current_health = max_health
 	go_to_idle_state()
+	
+	# Verifica se existe um checkpoint salvo (diferente de zero)
+	if Global.checkpoint_pos != Vector2.ZERO:
+		global_position = Global.checkpoint_pos
 
 func _physics_process(delta: float) -> void:
 	if invuln_timer > 0:
@@ -87,9 +91,6 @@ func _physics_process(delta: float) -> void:
 		if collider and collider.is_in_group("Spikes"):
 			insta_kill()
 			
-	# Verifica se existe um checkpoint salvo (diferente de zero)
-	if Global.checkpoint_pos != Vector2.ZERO:
-		global_position = Global.checkpoint_pos
 
 # --- FUNÇÕES DE TRANSIÇÃO DE ESTADO ---
 
@@ -134,6 +135,9 @@ func go_to_hurt_state():
 func go_to_dead_state():
 	status = PlayerState.DEAD
 	velocity = Vector2.ZERO 
+	
+	# Salva o endereço da fase em que o player está morrendo
+	Global.current_level_path = get_tree().current_scene.scene_file_path
 	
 	anima.play("dead")
 	await anima.animation_finished 

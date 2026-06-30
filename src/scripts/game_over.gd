@@ -59,8 +59,15 @@ func _on_button_selected(button: Button) -> void:
 	
 	await flash_tween.finished
 	
-	# Executa as ações baseadas no botão clicado
 	if button.name == "RetryButton":
-		get_tree().change_scene_to_file("res://src/levels/scene.tscn")
+		# 1. Tenta carregar a fase em que o jogador estava quando morreu
+		if Global.current_level_path != "":
+			get_tree().change_scene_to_file(Global.current_level_path)
+		else:
+			# 2. Se der algo errado e o global estiver vazio, manda pro level 1
+			get_tree().change_scene_to_file("res://src/levels/level_1.tscn")
+			
 	elif button.name == "MenuButton":
+		# Limpa o checkpoint para garantir que um novo jogo comece do início!
+		Global.reset_checkpoint()
 		get_tree().change_scene_to_file("res://src/levels/menu.tscn")
