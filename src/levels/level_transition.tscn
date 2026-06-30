@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://d3n5aias35fnd"]
+
+[ext_resource type="Script" uid="uid://c0nsd1ky6miyi" path="res://src/scripts/level_transition.gd" id="1_7llku"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vc28r"]
+
+[node name="LevelTransition" type="Area2D" unique_id=422054987]
+script = ExtResource("1_7llku")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=269555180]
+shape = SubResource("CapsuleShape2D_vc28r")

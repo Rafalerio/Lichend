@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dv1g6vs7tjx8i"]
+
+[ext_resource type="Script" uid="uid://bn45m1kt1btaf" path="res://src/scripts/checkpoint.gd" id="1_t0lj1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2ibje"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cfuyg"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle_off",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_on",
+"speed": 5.0
+}]
+
+[node name="Checkpoint" type="Area2D" unique_id=1731024398]
+script = ExtResource("1_t0lj1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1395219272]
+shape = SubResource("CapsuleShape2D_2ibje")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1451899103]
+sprite_frames = SubResource("SpriteFrames_cfuyg")
+animation = &"idle_off"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

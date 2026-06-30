@@ -86,6 +86,10 @@ func _physics_process(delta: float) -> void:
 		# Se o que o Lich encostou está no grupo "Spikes"
 		if collider and collider.is_in_group("Spikes"):
 			insta_kill()
+			
+	# Verifica se existe um checkpoint salvo (diferente de zero)
+	if Global.checkpoint_pos != Vector2.ZERO:
+		global_position = Global.checkpoint_pos
 
 # --- FUNÇÕES DE TRANSIÇÃO DE ESTADO ---
 

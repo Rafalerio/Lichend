@@ -60,6 +60,6 @@ func _on_button_selected(button: Button) -> void:
 	await flash_tween.finished
 	
 	if button.name == "PlayButton":
-		get_tree().change_scene_to_file("res://src/levels/scene.tscn")
+		get_tree().change_scene_to_file("res://src/levels/level_1.tscn")
 	elif button.name == "QuitButton":
 		get_tree().quit()
