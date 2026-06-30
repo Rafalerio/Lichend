@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cftm2cfok6rag" path="res://src/actors/player.tscn" id="1_fcumj"]
 [ext_resource type="PackedScene" uid="uid://bcvg5odpv4jei" path="res://src/actors/camera.tscn" id="2_ia7or"]
-[ext_resource type="PackedScene" uid="uid://dhqu22ocmxqsp" path="res://src/actors/enemy.tscn" id="3_riplu"]
+[ext_resource type="PackedScene" uid="uid://dhqu22ocmxqsp" path="res://src/actors/base_enemy.tscn" id="3_riplu"]
 [ext_resource type="Texture2D" uid="uid://8c4jxdiav5br" path="res://assets/sprites/tile/grass_terrain.png" id="4_vo5gq"]
 [ext_resource type="AudioStream" uid="uid://caf15cpp3esxa" path="res://assets/audio/music/Stage 1.wav" id="5_q2tyl"]
 [ext_resource type="PackedScene" uid="uid://c4hw1i1gdq22x" path="res://src/levels/spike.tscn" id="6_svtf7"]
@@ -92,7 +92,7 @@ texture = ExtResource("4_vo5gq")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ia7or")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fu73o"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_riplu"]
 texture = ExtResource("8_f1p2y")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.9037366, 0.91372967, 6.903738, 0.81220436, 6.903738, 8, 6.903738, 8, -6.7006855, 8)
@@ -104,7 +104,7 @@ physics_layer_0/collision_layer = 1
 physics_layer_1/collision_layer = 0
 physics_layer_1/collision_mask = 0
 physics_layer_1/collision_priority = 0.0
-sources/0 = SubResource("TileSetAtlasSource_fu73o")
+sources/0 = SubResource("TileSetAtlasSource_riplu")
 
 [node name="Level_1" type="Node2D" unique_id=888941350]
 
@@ -121,18 +121,6 @@ limit_bottom = 210
 limit_smoothed = true
 position_smoothing_enabled = false
 position_smoothing_speed = 20.0
-
-[node name="enemy3" parent="." unique_id=1683073577 instance=ExtResource("3_riplu")]
-position = Vector2(507, 158)
-
-[node name="enemy4" parent="." unique_id=2090159817 instance=ExtResource("3_riplu")]
-position = Vector2(584, 160)
-
-[node name="enemy6" parent="." unique_id=236076056 instance=ExtResource("3_riplu")]
-position = Vector2(200, 164)
-
-[node name="enemy5" parent="." unique_id=281600365 instance=ExtResource("3_riplu")]
-position = Vector2(673, 78)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=161823207]
 position = Vector2(-37, 168)
@@ -217,9 +205,6 @@ position = Vector2(2632, 136)
 [node name="BreakingPlatform6" parent="." unique_id=1657146717 instance=ExtResource("9_r7usx")]
 position = Vector2(2944, 184)
 
-[node name="enemy" parent="." unique_id=782275727 instance=ExtResource("3_riplu")]
-position = Vector2(3912, 40)
-
 [node name="Checkpoint" parent="." unique_id=1731024398 instance=ExtResource("10_077sa")]
 position = Vector2(4288, 16)
 
@@ -229,3 +214,21 @@ next_scene_path = "res://src/levels/level_2.tscn"
 
 [node name="BreakingPlatform7" parent="." unique_id=1858306932 instance=ExtResource("9_r7usx")]
 position = Vector2(4408, 40)
+
+[node name="Enemy" parent="." unique_id=236076056 instance=ExtResource("3_riplu")]
+position = Vector2(240, 160)
+
+[node name="Enemy2" parent="." unique_id=1231588119 instance=ExtResource("3_riplu")]
+position = Vector2(520, 160)
+
+[node name="Enemy3" parent="." unique_id=1763006262 instance=ExtResource("3_riplu")]
+position = Vector2(592, 160)
+
+[node name="Enemy4" parent="." unique_id=521520190 instance=ExtResource("3_riplu")]
+position = Vector2(680, 80)
+
+[node name="Enemy5" parent="." unique_id=19737685 instance=ExtResource("3_riplu")]
+position = Vector2(3904, 48)
+
+[node name="Enemy6" parent="." unique_id=1300712042 instance=ExtResource("3_riplu")]
+position = Vector2(4192, 8)

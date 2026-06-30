@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bgmgxj1ebn1jy" path="res://assets/sprites/player/lich_idle.png" id="5_urqtb"]
 [ext_resource type="Texture2D" uid="uid://bpnersrotib6" path="res://assets/sprites/player/lich_walk.png" id="6_wqefw"]
 [ext_resource type="Texture2D" uid="uid://tdvf7bnpe5dp" path="res://assets/sprites/orb.png" id="8_urqtb"]
-[ext_resource type="Script" uid="uid://dvmk8salmeych" path="res://src/scripts/orb.gd" id="9_wqefw"]
+[ext_resource type="Script" uid="uid://dvmk8salmeych" path="res://src/scripts/base_enemy.gd" id="9_wqefw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7oscb"]
 radius = 6.0
@@ -331,6 +331,7 @@ autoplay = "idle"
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1133797764]
 visible = false
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=488891165]
 position = Vector2(0, 0.25)
