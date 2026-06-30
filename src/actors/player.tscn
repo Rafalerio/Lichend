@@ -316,10 +316,12 @@ animations = [{
 size = Vector2(8, 14.5)
 
 [node name="player" type="CharacterBody2D" unique_id=1111965173 groups=["Player"]]
+collision_layer = 2
 script = ExtResource("1_iairh")
 bullet_scene = ExtResource("2_wqefw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1843246866]
+visibility_layer = 2
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_7oscb")
 
@@ -331,9 +333,14 @@ autoplay = "idle"
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1133797764]
 visible = false
+light_mask = 0
+visibility_layer = 2
 collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=488891165]
+light_mask = 2
+visibility_layer = 2
 position = Vector2(0, 0.25)
 shape = SubResource("RectangleShape2D_gdh0h")
 debug_color = Color(0.98853666, 0, 0.30609444, 0.41960785)

@@ -142,11 +142,11 @@ position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_2g484")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=422889262]
+visibility_layer = 4
 shape = SubResource("CapsuleShape2D_l7l08")
 
 [node name="WallDetector" type="RayCast2D" parent="." unique_id=1857004]
 target_position = Vector2(-20, 0)
-collide_with_bodies = false
 
 [node name="GroundDetector" type="RayCast2D" parent="." unique_id=1515256316]
 position = Vector2(-10, 7)
