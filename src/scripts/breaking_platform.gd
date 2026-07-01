@@ -20,7 +20,7 @@ func _on_player_detector_body_entered(body):
 	if is_breaking:
 		return
 		
-	# Verifica se quem pisou foi o player (você pode usar grupos ou nome)
+	# Verifica se quem pisou foi o player
 	if body.name == "Player" or body.has_method("take_damage"):
 		start_breaking()
 

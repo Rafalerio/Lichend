@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnj2uh6vt0sn8"
-path="res://.godot/imported/hazards.png-82f085f02579756219f0b1d7e3d75043.ctex"
+uid="uid://clokge2tiak14"
+path="res://.godot/imported/logo.png-0f96317da5ff1739435d5950a05f0dfb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/hazards.png"
-dest_files=["res://.godot/imported/hazards.png-82f085f02579756219f0b1d7e3d75043.ctex"]
+source_file="res://assets/textures/logo.png"
+dest_files=["res://.godot/imported/logo.png-0f96317da5ff1739435d5950a05f0dfb.ctex"]
 
 [params]
 

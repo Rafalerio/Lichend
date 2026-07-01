@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c3x57t2cnr2uq" path="res://assets/sprites/player/lich_jump.png" id="3_d8py6"]
 [ext_resource type="Texture2D" uid="uid://c6l3e0rlfm0w6" path="res://assets/sprites/player/lich_damage.png" id="4_l3h4q"]
 [ext_resource type="Texture2D" uid="uid://bgmgxj1ebn1jy" path="res://assets/sprites/player/lich_idle.png" id="5_urqtb"]
-[ext_resource type="Texture2D" uid="uid://bpnersrotib6" path="res://assets/sprites/player/lich_walk.png" id="6_wqefw"]
+[ext_resource type="Texture2D" uid="uid://7to22gq3xgjl" path="res://assets/sprites/player/lich_walk.png" id="6_wqefw"]
 [ext_resource type="Texture2D" uid="uid://tdvf7bnpe5dp" path="res://assets/sprites/orb.png" id="8_urqtb"]
 [ext_resource type="Script" uid="uid://dvmk8salmeych" path="res://src/scripts/base_enemy.gd" id="9_wqefw"]
 
@@ -328,8 +328,9 @@ shape = SubResource("CapsuleShape2D_7oscb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1880843179]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_iairh")
-animation = &"dead"
+animation = &"walk"
 autoplay = "idle"
+frame_progress = 0.6990173
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1133797764]
 visible = false

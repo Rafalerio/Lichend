@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7to22gq3xgjl"
-path="res://.godot/imported/lich_walk.png-a745affd95ab74a7eb815d5a9c6d0b84.ctex"
+uid="uid://cnj2uh6vt0sn8"
+path="res://.godot/imported/hazards.png-0b996781f3db500e0bb40bf75658adb0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/lich_walk.png"
-dest_files=["res://.godot/imported/lich_walk.png-a745affd95ab74a7eb815d5a9c6d0b84.ctex"]
+source_file="res://assets/sprites/tile/hazards.png"
+dest_files=["res://.godot/imported/hazards.png-0b996781f3db500e0bb40bf75658adb0.ctex"]
 
 [params]
 
