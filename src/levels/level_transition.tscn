@@ -5,9 +5,12 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vc28r"]
 
 [node name="LevelTransition" type="Area2D" unique_id=422054987]
+collision_layer = 8
+collision_mask = 2
 script = ExtResource("1_7llku")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=269555180]
+visibility_layer = 8
 shape = SubResource("CapsuleShape2D_vc28r")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

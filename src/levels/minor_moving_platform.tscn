@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b0ig5qbdiwxe8"]
+
+[ext_resource type="Script" uid="uid://bhegj7jauwush" path="res://src/scripts/moving_platform.gd" id="1_hdl1x"]
+[ext_resource type="Texture2D" uid="uid://cnj2uh6vt0sn8" path="res://assets/sprites/tile/hazards.png" id="2_7d6m3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eegh1"]
+size = Vector2(16, 8)
+
+[node name="Minor_Moving_Platform" type="AnimatableBody2D" unique_id=1319987350]
+script = ExtResource("1_hdl1x")
+move_offset = Vector2(100, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=486025696]
+texture = ExtResource("2_7d6m3")
+region_enabled = true
+region_rect = Rect2(48, 16, 16, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=9839624]
+shape = SubResource("RectangleShape2D_eegh1")

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bss80uogm0rdp"]
+
+[ext_resource type="PackedScene" uid="uid://cyol0ty0mjft7" path="res://src/levels/cutscene.tscn" id="1_eh1gg"]
+
+[node name="Cutscene" unique_id=2031747954 instance=ExtResource("1_eh1gg")]
+dialogue_lines = Array[String](["O lich era picudo mas tomou corno e queria se matar."])
+next_scene_path = "uid://dl7epy5kk7ve"

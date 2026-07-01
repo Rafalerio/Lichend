@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bueceibny7yuw"]
+
+[ext_resource type="PackedScene" uid="uid://cyol0ty0mjft7" path="res://src/levels/cutscene.tscn" id="1_0kcfm"]
+
+[node name="Cutscene" unique_id=2031747954 instance=ExtResource("1_0kcfm")]
+dialogue_lines = Array[String](["E morreu!"])
+next_scene_path = "uid://bjrh21bsvoxb8"

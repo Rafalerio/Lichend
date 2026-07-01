@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cftm2cfok6rag" path="res://src/actors/player.tscn" id="2_j6mmr"]
 [ext_resource type="Texture2D" uid="uid://8c4jxdiav5br" path="res://assets/sprites/tile/grass_terrain.png" id="3_j6mmr"]
 [ext_resource type="Texture2D" uid="uid://cnj2uh6vt0sn8" path="res://assets/sprites/tile/hazards.png" id="4_flios"]
+[ext_resource type="PackedScene" uid="uid://d3n5aias35fnd" path="res://src/levels/level_transition.tscn" id="5_ms1y2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_flios"]
 texture = ExtResource("3_j6mmr")
@@ -111,3 +112,7 @@ tile_set = SubResource("TileSet_ms1y2")
 [node name="SpikeMap" type="TileMapLayer" parent="." unique_id=1773298560 groups=["Spikes"]]
 tile_map_data = PackedByteArray("AACBAAoAAAABAAAAAACLAAoAAAABAAAAAACKAAoAAAABAAAAAACCAAoAAAABAAAAAACDAAoAAAAAAAAAAACEAAoAAAABAAAAAACJAAoAAAAAAAAAAACIAAoAAAABAAAAAACHAAoAAAAAAAAAAACGAAoAAAAAAAAAAACFAAoAAAAAAAAAAAAPAQcAAAABAAAAAAAXAQcAAAABAAAAAAAQAQcAAAABAAAAAAAWAQcAAAABAAAAAAATAQcAAAABAAAAAAARAQcAAAAAAAAAAAASAQcAAAAAAAAAAAAUAQcAAAAAAAAAAAAVAQcAAAAAAAAAAAAEAAoAAAAAAAAAAAAFAAoAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_1cvfm")
+
+[node name="LevelTransition" parent="." unique_id=422054987 instance=ExtResource("5_ms1y2")]
+position = Vector2(232, 144)
+next_scene_path = "res://src/levels/ending_cutscene.tscn"

@@ -61,6 +61,6 @@ func _on_button_selected(button: Button) -> void:
 	
 	if button.name == "PlayButton":
 		Global.reset_checkpoint() # Zera o checkpoint ao começar jogo novo
-		get_tree().change_scene_to_file("res://src/levels/level_1.tscn")
+		get_tree().change_scene_to_file("res://src/levels/intro_cutscene.tscn")
 	elif button.name == "QuitButton":
 		get_tree().quit()

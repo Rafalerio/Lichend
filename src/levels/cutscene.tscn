@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cyol0ty0mjft7"]
+
+[ext_resource type="Script" uid="uid://cymni66d0geaa" path="res://src/scripts/cutscene.gd" id="1_jsxe2"]
+[ext_resource type="FontFile" uid="uid://rf1voa4jjb0u" path="res://assets/fonts/PixelOperator8.ttf" id="2_6l1dj"]
+
+[node name="Cutscene" type="Control" unique_id=2031747954]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jsxe2")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=138301794]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1856381515]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer" unique_id=776867437]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_6l1dj")
+
+[node name="Timer" type="Timer" parent="." unique_id=334728978]
+wait_time = 0.05
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1077954980]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

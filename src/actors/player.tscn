@@ -347,9 +347,9 @@ shape = SubResource("CapsuleShape2D_wqefw")
 debug_color = Color(0.98853666, 0, 0.30609444, 0.41960785)
 
 [node name="Orb" type="Sprite2D" parent="." unique_id=2051468596]
-position = Vector2(10, 4)
-scale = Vector2(0.6666667, 0.6666667)
+position = Vector2(12, 4)
 texture = ExtResource("8_urqtb")
 script = ExtResource("9_wqefw")
 
 [node name="ShootPoint" type="Marker2D" parent="Orb" unique_id=228734814]
+position = Vector2(7, 0)

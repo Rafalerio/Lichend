@@ -18,6 +18,10 @@ var orb_offset_x: float = 10.0
 @export var max_health: int = 10
 var current_health: int
 
+# --- CONFIGURAÇÕES DA ORBE ---
+@export var orb_distance: float = 15.0 # Distância que a orbe fica do player
+@export var orb_smooth_speed: float = 10.0 # Velocidade do "deslizamento" (maior = mais rápido)
+
 # --- ARMAS E TIROS ---
 const BULLET_SCENE = preload("res://src/levels/bullet.tscn")
 var charge_timer: float = 0.0
@@ -82,6 +86,9 @@ func _physics_process(delta: float) -> void:
 		PlayerState.DEAD: dead_state(delta)
 		
 	move_and_slide()
+	
+	# Atualiza a orbe a cada frame
+	update_orb_position(delta)
 	
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -329,7 +336,7 @@ func fire_bullet(damage_val: int):
 	
 	bullet.add_to_group("PlayerBullets")
 	
-	var spawn_pos = orb.global_position 
+	var spawn_pos = shoot_point.global_position
 	
 	bullet.setup(spawn_pos, last_facing_direction, damage_val)
 
@@ -350,10 +357,19 @@ func update_direction():
 	if direction < 0:
 		anima.flip_h = true
 		last_facing_direction = -1
-		orb.position.x = -orb_offset_x #Orbe vai para a esquerda
 	elif direction > 0:
 		anima.flip_h = false
 		last_facing_direction = 1
-		orb.position.x = orb_offset_x  #Orbe vai para a direita
 
-# --- COLISÕES ---
+func update_orb_position(delta: float) -> void:
+	if not has_node("Orb"): return # Trava de segurança caso a orbe não exista
+	
+	# Calcula onde a orbe deve estar 
+	var target_x = last_facing_direction * orb_distance
+	
+	# Faz o movimento suave (deslizar) da posição atual até a posição alvo
+	$Orb.position.x = lerp($Orb.position.x, target_x, delta * orb_smooth_speed)
+	
+	# 3. Gira a Orbe inteira para o lado certo
+	if last_facing_direction != 0:
+		$Orb.scale.x = last_facing_direction

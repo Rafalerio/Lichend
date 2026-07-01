@@ -73,9 +73,11 @@ hframes = 8
 region_rect = Rect2(0, 0, 16, 16)
 
 [node name="SolidCollision" type="CollisionShape2D" parent="." unique_id=2132222681]
+visible = false
 shape = SubResource("RectangleShape2D_4s2vh")
 
 [node name="PlayerDetector" type="Area2D" parent="." unique_id=1266704580]
+visible = false
 collision_mask = 2
 
 [node name="DetectorCollision" type="CollisionShape2D" parent="PlayerDetector" unique_id=1931979622]

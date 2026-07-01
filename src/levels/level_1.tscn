@@ -1,14 +1,25 @@
 [gd_scene format=4 uid="uid://dl7epy5kk7ve"]
 
+[ext_resource type="Texture2D" uid="uid://dkf8igvvf0akc" path="res://assets/textures/parallax/level_1/GrassLand_Background_1.png" id="1_077sa"]
 [ext_resource type="PackedScene" uid="uid://cftm2cfok6rag" path="res://src/actors/player.tscn" id="1_fcumj"]
 [ext_resource type="PackedScene" uid="uid://bcvg5odpv4jei" path="res://src/actors/camera.tscn" id="2_ia7or"]
+[ext_resource type="Texture2D" uid="uid://cxkwxmrywnhx4" path="res://assets/textures/parallax/level_1/GrassLand_Cloud_1.png" id="2_svo37"]
+[ext_resource type="Texture2D" uid="uid://dhgaotn3cf0hh" path="res://assets/textures/parallax/level_1/GrassLand_Cloud_3.png" id="3_5ib0j"]
 [ext_resource type="PackedScene" uid="uid://dhqu22ocmxqsp" path="res://src/actors/base_enemy.tscn" id="3_riplu"]
+[ext_resource type="Texture2D" uid="uid://douiroxsstenk" path="res://assets/textures/parallax/level_1/GrassLand_Cloud_2.png" id="3_svo37"]
+[ext_resource type="Texture2D" uid="uid://17nirdk7mcal" path="res://assets/textures/parallax/level_1/GrassLand_Background_2.png" id="4_sblag"]
 [ext_resource type="Texture2D" uid="uid://8c4jxdiav5br" path="res://assets/sprites/tile/grass_terrain.png" id="4_vo5gq"]
+[ext_resource type="Texture2D" uid="uid://crujldpiyq8va" path="res://assets/textures/parallax/level_1/GrassLand_Background_3.png" id="5_bevbp"]
 [ext_resource type="AudioStream" uid="uid://caf15cpp3esxa" path="res://assets/audio/music/Stage 1.wav" id="5_q2tyl"]
+[ext_resource type="Texture2D" uid="uid://dnjxk41vksim3" path="res://assets/textures/parallax/level_1/GrassLand_Background_4.png" id="6_cp87p"]
+[ext_resource type="Texture2D" uid="uid://yxl5qh515uos" path="res://assets/textures/parallax/level_1/GrassLand_Background_5.png" id="7_nv4as"]
 [ext_resource type="Texture2D" uid="uid://cnj2uh6vt0sn8" path="res://assets/sprites/tile/hazards.png" id="8_f1p2y"]
 [ext_resource type="PackedScene" uid="uid://dme8nmex1n1vf" path="res://src/levels/breaking_platform.tscn" id="9_r7usx"]
 [ext_resource type="PackedScene" uid="uid://dv1g6vs7tjx8i" path="res://src/levels/checkpoint.tscn" id="10_077sa"]
+[ext_resource type="PackedScene" uid="uid://fxwbgxuwl2b7" path="res://src/levels/moving_platform.tscn" id="10_fcumj"]
 [ext_resource type="PackedScene" uid="uid://d3n5aias35fnd" path="res://src/levels/level_transition.tscn" id="11_ia7or"]
+[ext_resource type="PackedScene" uid="uid://b0ig5qbdiwxe8" path="res://src/levels/minor_moving_platform.tscn" id="11_riplu"]
+[ext_resource type="PackedScene" uid="uid://beyrem88sp26r" path="res://src/levels/death_zone.tscn" id="12_riplu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_waw57"]
 size = Vector2(20, 192.5)
@@ -106,12 +117,101 @@ sources/0 = SubResource("TileSetAtlasSource_riplu")
 
 [node name="Level_1" type="Node2D" unique_id=888941350]
 
+[node name="Sky" type="Parallax2D" parent="." unique_id=590953822]
+z_index = -100
+scale = Vector2(1, 10)
+scroll_scale = Vector2(0, 0)
+repeat_size = Vector2(368, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Sky" unique_id=411011275]
+z_index = -100
+texture = ExtResource("1_077sa")
+centered = false
+
+[node name="Clouds_1" type="Parallax2D" parent="." unique_id=990249494]
+z_index = -100
+scroll_scale = Vector2(0.1, 0)
+scroll_offset = Vector2(0, -40)
+repeat_size = Vector2(48, 0)
+autoscroll = Vector2(-5, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Clouds_1" unique_id=207187633]
+z_index = -100
+position = Vector2(104, 24)
+texture = ExtResource("2_svo37")
+centered = false
+
+[node name="Clouds_2" type="Parallax2D" parent="." unique_id=547421327]
+z_index = -100
+scroll_scale = Vector2(0.1, 0)
+scroll_offset = Vector2(-72, 8)
+repeat_size = Vector2(96, 0)
+autoscroll = Vector2(-10, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Clouds_2" unique_id=1380300945]
+z_index = -100
+position = Vector2(112, 24)
+texture = ExtResource("3_svo37")
+centered = false
+
+[node name="Clouds_3" type="Parallax2D" parent="." unique_id=610928038]
+z_index = -100
+scroll_scale = Vector2(0.1, 0)
+scroll_offset = Vector2(-8, 8)
+repeat_size = Vector2(64, 0)
+autoscroll = Vector2(-15, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Clouds_3" unique_id=1854452796]
+z_index = -100
+position = Vector2(160, 32)
+texture = ExtResource("3_5ib0j")
+centered = false
+
+[node name="Trees" type="Parallax2D" parent="." unique_id=925537630]
+z_index = -100
+scroll_scale = Vector2(0.3, 0.05)
+repeat_size = Vector2(368, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Trees" unique_id=1307846372]
+z_index = -100
+texture = ExtResource("4_sblag")
+centered = false
+
+[node name="FarHills" type="Parallax2D" parent="." unique_id=1188050892]
+z_index = -100
+scroll_scale = Vector2(0.5, 0.05)
+repeat_size = Vector2(416, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="FarHills" unique_id=442301237]
+z_index = -100
+texture = ExtResource("5_bevbp")
+centered = false
+
+[node name="MidHills" type="Parallax2D" parent="." unique_id=2131570929]
+z_index = -100
+scroll_scale = Vector2(0.7, 0.05)
+repeat_size = Vector2(448, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="MidHills" unique_id=350964235]
+z_index = -100
+texture = ExtResource("6_cp87p")
+centered = false
+
+[node name="NearHills" type="Parallax2D" parent="." unique_id=1434185015]
+z_index = -100
+scroll_scale = Vector2(0.9, 0.05)
+repeat_size = Vector2(368, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="NearHills" unique_id=2043573237]
+texture = ExtResource("7_nv4as")
+centered = false
+
 [node name="Musica" type="AudioStreamPlayer" parent="." unique_id=997275915]
 stream = ExtResource("5_q2tyl")
 volume_db = -15.0
 
 [node name="player" parent="." unique_id=1111965173 instance=ExtResource("1_fcumj")]
-position = Vector2(4088, 8)
+position = Vector2(4992, -8)
 
 [node name="camera" parent="." unique_id=1387297997 instance=ExtResource("2_ia7or")]
 position = Vector2(22, 168)
@@ -125,7 +225,7 @@ position_smoothing_enabled = false
 position_smoothing_speed = 20.0
 
 [node name="ParedeInvisivel" type="StaticBody2D" parent="." unique_id=161823207]
-position = Vector2(-37, 168)
+position = Vector2(-40, 176)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ParedeInvisivel" unique_id=755563293]
 position = Vector2(-11, -87)
@@ -137,7 +237,7 @@ tile_map_data = PackedByteArray("AAAEAAsAAAABAAAAAAAFAAsAAAABAAAAAAAGAAsAAAABAAA
 tile_set = SubResource("TileSet_qrt5o")
 
 [node name="SpikeMapLayer" type="TileMapLayer" parent="." unique_id=384017308 groups=["Spikes"]]
-tile_map_data = PackedByteArray("AACBAAoAAAABAAAAAACLAAoAAAABAAAAAACKAAoAAAABAAAAAACCAAoAAAABAAAAAACDAAoAAAAAAAAAAACEAAoAAAABAAAAAACJAAoAAAAAAAAAAACIAAoAAAABAAAAAACHAAoAAAAAAAAAAACGAAoAAAAAAAAAAACFAAoAAAAAAAAAAAAPAQcAAAABAAAAAAAXAQcAAAABAAAAAAAQAQcAAAABAAAAAAAWAQcAAAABAAAAAAATAQcAAAABAAAAAAARAQcAAAAAAAAAAAASAQcAAAAAAAAAAAAUAQcAAAAAAAAAAAAVAQcAAAAAAAAAAACAAAoAAAAAAAAAAACMAAoAAAABAAAAAAC1AAwAAAAAAAAAAAC2AAwAAAABAAAAAAC3AAwAAAABAAAAAAC4AAwAAAAAAAAAAAC5AAwAAAABAAAAAAC6AAwAAAAAAAAAAACvAAwAAAABAAAAAACuAAwAAAAAAAAAAACtAAwAAAABAAAAAAB2AAoAAAABAAAAAAB4AAoAAAABAAAAAAB3AAoAAAAAAAAAAAB8AAoAAAABAAAAAAB9AAoAAAAAAAAAAAB7AAoAAAAAAAAAAABdAAoAAAABAAAAAABeAAoAAAAAAAAAAABjAAoAAAABAAAAAABiAAoAAAAAAAAAAABmAAoAAAAAAAAAAABnAAoAAAABAAAAAABqAAoAAAABAAAAAABrAAoAAAABAAAAAAA=")
+tile_map_data = PackedByteArray("AACBAAoAAAABAAAAAACLAAoAAAABAAAAAACKAAoAAAABAAAAAACCAAoAAAABAAAAAACDAAoAAAAAAAAAAACEAAoAAAABAAAAAACJAAoAAAAAAAAAAACIAAoAAAABAAAAAACHAAoAAAAAAAAAAACGAAoAAAAAAAAAAACFAAoAAAAAAAAAAAAPAQcAAAABAAAAAAAXAQcAAAABAAAAAAAQAQcAAAABAAAAAAAWAQcAAAABAAAAAAATAQcAAAABAAAAAAARAQcAAAAAAAAAAAASAQcAAAAAAAAAAAAUAQcAAAAAAAAAAAAVAQcAAAAAAAAAAACAAAoAAAAAAAAAAACMAAoAAAABAAAAAAC1AAwAAAAAAAAAAAC2AAwAAAABAAAAAAC3AAwAAAABAAAAAAC4AAwAAAAAAAAAAAC5AAwAAAABAAAAAAC6AAwAAAAAAAAAAACvAAwAAAABAAAAAACuAAwAAAAAAAAAAACtAAwAAAABAAAAAAB2AAoAAAABAAAAAAB4AAoAAAABAAAAAAB3AAoAAAAAAAAAAAB8AAoAAAABAAAAAAB9AAoAAAAAAAAAAAB7AAoAAAAAAAAAAABdAAoAAAABAAAAAABeAAoAAAAAAAAAAABjAAoAAAABAAAAAABiAAoAAAAAAAAAAABmAAoAAAAAAAAAAABnAAoAAAABAAAAAABqAAoAAAABAAAAAABrAAoAAAABAAAAAADLAAkAAAABAAAAAADMAAkAAAABAAAAAADNAAkAAAAAAAAAAADOAAkAAAAAAAAAAADPAAkAAAABAAAAAADQAAkAAAABAAAAAAA=")
 tile_set = SubResource("TileSet_4sccm")
 
 [node name="BreakingPlatform" parent="." unique_id=1105818296 instance=ExtResource("9_r7usx")]
@@ -157,9 +257,6 @@ position = Vector2(2632, 136)
 
 [node name="BreakingPlatform6" parent="." unique_id=1657146717 instance=ExtResource("9_r7usx")]
 position = Vector2(2944, 184)
-
-[node name="BreakingPlatform7" parent="." unique_id=1858306932 instance=ExtResource("9_r7usx")]
-position = Vector2(4408, 40)
 
 [node name="Checkpoint" parent="." unique_id=1731024398 instance=ExtResource("10_077sa")]
 position = Vector2(4288, 16)
@@ -188,3 +285,22 @@ position = Vector2(4192, 8)
 
 [node name="Enemy7" parent="." unique_id=689207842 instance=ExtResource("3_riplu")]
 position = Vector2(4216, 16)
+
+[node name="AnimatableBody2D" parent="." unique_id=1319987350 instance=ExtResource("10_fcumj")]
+position = Vector2(2080, 128)
+
+[node name="Minor_Moving_Platform" parent="." unique_id=278268238 instance=ExtResource("11_riplu")]
+position = Vector2(4352, 32)
+move_offset = Vector2(113, 0)
+
+[node name="DeathZone" parent="." unique_id=568383674 instance=ExtResource("12_riplu")]
+position = Vector2(392, 248)
+scale = Vector2(3, 1)
+
+[node name="DeathZone2" parent="." unique_id=2109435505 instance=ExtResource("12_riplu")]
+position = Vector2(720, 248)
+scale = Vector2(2, 1)
+
+[node name="DeathZone3" parent="." unique_id=1129695973 instance=ExtResource("12_riplu")]
+position = Vector2(2536, 248)
+scale = Vector2(20, 1)

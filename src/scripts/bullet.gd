@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var speed: float = 400.0
+@export var speed: float = 300.0
 var direction: int = 10
 var damage: int = 1
 
@@ -13,8 +13,7 @@ var anim_hit: String = "hit"
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
-	# Retiramos o anim.play("default") daqui, 
-	# pois agora a função setup() vai decidir qual animação tocar!
+
 	pass
 
 func setup(spawn_position: Vector2, shoot_direction: int, damage_value: int):
@@ -52,7 +51,7 @@ func _on_area_entered(area: Area2D) -> void:
 		
 	var parent = area.get_parent()
 	if parent and parent.has_method("take_damage"):
-		parent.take_damage(damage)
+		parent.take_damage(damage, global_position.x)
 	
 	explode()
 
@@ -60,7 +59,7 @@ func _on_body_entered(body: Node2D) -> void:
 	# Verifica se em quem o tiro bateu tem a função de tomar dano
 	if body.has_method("take_damage"):
 		# Dá o dano e passa a posição X de quem atirou (opcional, para knockback)
-		body.take_damage(1, global_position.x)
+		body.take_damage(damage, global_position.x)
 
 	# Destrói o tiro após bater em algo (inimigo ou parede
 	queue_free()
