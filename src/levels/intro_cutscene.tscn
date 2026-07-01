@@ -3,5 +3,5 @@
 [ext_resource type="PackedScene" uid="uid://cyol0ty0mjft7" path="res://src/levels/cutscene.tscn" id="1_eh1gg"]
 
 [node name="Cutscene" unique_id=2031747954 instance=ExtResource("1_eh1gg")]
-dialogue_lines = Array[String](["O lich era picudo mas tomou corno e queria se matar."])
+dialogue_lines = Array[String](["Após incontáveis eras sem propósito...", "O Lich finalmente tomou uma decisão.", "Retornar à dungeon que um dia construiu para proteger seu núcleo.", "A fonte de sua imortalidade.", "Hoje...", "Ela seria destruída."])
 next_scene_path = "uid://dl7epy5kk7ve"
