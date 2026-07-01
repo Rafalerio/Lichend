@@ -64,6 +64,7 @@ _data = {
 }
 
 [node name="BreakingPlatform" type="StaticBody2D" unique_id=1105818296]
+collision_mask = 2
 script = ExtResource("1_5t2jq")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1771521504]
@@ -75,6 +76,7 @@ region_rect = Rect2(0, 0, 16, 16)
 shape = SubResource("RectangleShape2D_4s2vh")
 
 [node name="PlayerDetector" type="Area2D" parent="." unique_id=1266704580]
+collision_mask = 2
 
 [node name="DetectorCollision" type="CollisionShape2D" parent="PlayerDetector" unique_id=1931979622]
 shape = SubResource("RectangleShape2D_vu765")

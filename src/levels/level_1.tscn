@@ -106,13 +106,12 @@ sources/0 = SubResource("TileSetAtlasSource_riplu")
 
 [node name="Level_1" type="Node2D" unique_id=888941350]
 
-[node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=997275915]
+[node name="Musica" type="AudioStreamPlayer" parent="." unique_id=997275915]
 stream = ExtResource("5_q2tyl")
 volume_db = -15.0
-autoplay = true
 
 [node name="player" parent="." unique_id=1111965173 instance=ExtResource("1_fcumj")]
-position = Vector2(4676, -8)
+position = Vector2(4088, 8)
 
 [node name="camera" parent="." unique_id=1387297997 instance=ExtResource("2_ia7or")]
 position = Vector2(22, 168)

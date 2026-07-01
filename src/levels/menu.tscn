@@ -107,6 +107,7 @@ stream = ExtResource("6_w14e6")
 
 [node name="SelectSound" type="AudioStreamPlayer" parent="." unique_id=1684948329]
 stream = ExtResource("7_gmiku")
+volume_db = -10.0
 
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/PlayButton" to="." method="_on_btn_jogar_pressed"]
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/QuitButton" to="." method="_on_btn_sair_pressed"]

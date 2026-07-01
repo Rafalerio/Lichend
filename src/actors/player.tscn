@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bgmgxj1ebn1jy" path="res://assets/sprites/player/lich_idle.png" id="5_urqtb"]
 [ext_resource type="Texture2D" uid="uid://7to22gq3xgjl" path="res://assets/sprites/player/lich_walk.png" id="6_wqefw"]
 [ext_resource type="Texture2D" uid="uid://tdvf7bnpe5dp" path="res://assets/sprites/orb.png" id="8_urqtb"]
-[ext_resource type="Script" uid="uid://dvmk8salmeych" path="res://src/scripts/base_enemy.gd" id="9_wqefw"]
+[ext_resource type="Script" uid="uid://dvmk8salmeych" path="res://src/scripts/orb.gd" id="9_wqefw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7oscb"]
 radius = 6.0
@@ -312,10 +312,11 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdh0h"]
-size = Vector2(8, 14.5)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wqefw"]
+radius = 6.0
+height = 19.5
 
-[node name="player" type="CharacterBody2D" unique_id=1111965173 groups=["Player"]]
+[node name="Player" type="CharacterBody2D" unique_id=1111965173 groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_iairh")
 bullet_scene = ExtResource("2_wqefw")
@@ -333,7 +334,6 @@ autoplay = "idle"
 frame_progress = 0.6990173
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1133797764]
-visible = false
 light_mask = 0
 visibility_layer = 2
 collision_layer = 2
@@ -343,7 +343,7 @@ collision_mask = 2
 light_mask = 2
 visibility_layer = 2
 position = Vector2(0, 0.25)
-shape = SubResource("RectangleShape2D_gdh0h")
+shape = SubResource("CapsuleShape2D_wqefw")
 debug_color = Color(0.98853666, 0, 0.30609444, 0.41960785)
 
 [node name="Orb" type="Sprite2D" parent="." unique_id=2051468596]

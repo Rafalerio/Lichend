@@ -15,7 +15,7 @@ var orb_offset_x: float = 10.0
 @export var dash_duration = 0.35
 @export var dash_cooldown_time = 0.6 
 
-@export var max_health: int = 1
+@export var max_health: int = 10
 var current_health: int
 
 # --- ARMAS E TIROS ---
@@ -291,12 +291,12 @@ func handle_shooting(delta):
 	if Input.is_action_pressed("shoot") and is_charging:
 		charge_timer += delta
 		
-		if charge_timer >= 1.0:
+		if charge_timer >= 2.4:
 			if fmod(charge_timer * 15, 1.0) > 0.5:
 				anima.modulate = Color(2.0, 0.5, 0.5) 
 			else:
 				anima.modulate = Color.WHITE
-		elif charge_timer >= 0.4:
+		elif charge_timer >= 1.4:
 			if fmod(charge_timer * 10, 1.0) > 0.5:
 				anima.modulate = Color(0.5, 0.5, 2.0)
 			else:

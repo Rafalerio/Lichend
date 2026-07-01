@@ -68,6 +68,7 @@ stream = ExtResource("4_w3h87")
 
 [node name="SelectSound" type="AudioStreamPlayer" parent="." unique_id=459989462]
 stream = ExtResource("5_y0i7r")
+volume_db = -10.0
 
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/RetryButton" to="." method="_on_btn_continuar_pressed"]
 [connection signal="pressed" from="MainCenter/VerticalStack/MenuOptions/MenuButton" to="." method="_on_btn_menu_pressed"]

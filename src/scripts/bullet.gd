@@ -56,9 +56,14 @@ func _on_area_entered(area: Area2D) -> void:
 	
 	explode()
 
-@warning_ignore("unused_parameter")
 func _on_body_entered(body: Node2D) -> void:
-	explode()
+	# Verifica se em quem o tiro bateu tem a função de tomar dano
+	if body.has_method("take_damage"):
+		# Dá o dano e passa a posição X de quem atirou (opcional, para knockback)
+		body.take_damage(1, global_position.x)
+
+	# Destrói o tiro após bater em algo (inimigo ou parede
+	queue_free()
 
 func explode():
 	if has_exploded: return

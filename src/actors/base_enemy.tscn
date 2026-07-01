@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dhqu22ocmxqsp"]
 
 [ext_resource type="Texture2D" uid="uid://dudrsaxbadguf" path="res://assets/sprites/8 - Orc/Idle_(64 x 32).png" id="1_4j1vl"]
-[ext_resource type="Script" uid="uid://c8q11li58jxm2" path="res://src/scripts/orc.gd" id="1_hqn1u"]
+[ext_resource type="Script" uid="uid://c8q11li58jxm2" path="res://src/scripts/base_enemy.gd" id="1_hqn1u"]
 [ext_resource type="Texture2D" uid="uid://uacqhufwkops" path="res://assets/sprites/8 - Orc/Walking_(64 x 32).png" id="2_hqn1u"]
 [ext_resource type="Texture2D" uid="uid://bqemtcpnyta0f" path="res://assets/sprites/8 - Orc/Hurt_(64 x 32).png" id="2_l7l08"]
 [ext_resource type="Script" uid="uid://djt6786asequo" path="res://src/scripts/damage_source.gd" id="5_frsag"]
@@ -98,6 +98,11 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t7wyj")
@@ -131,8 +136,8 @@ a = Vector2(2, 1)
 b = Vector2(-9, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mrgda"]
-radius = 8.0
-height = 22.0
+radius = 9.0
+height = 28.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=236076056]
 script = ExtResource("1_hqn1u")
@@ -140,6 +145,7 @@ script = ExtResource("1_hqn1u")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=84000654]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_2g484")
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=422889262]
 visibility_layer = 4
@@ -161,6 +167,7 @@ damage = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageSource" unique_id=1450239728]
 shape = SubResource("SegmentShape2D_mrgda")
+debug_color = Color(0.5306097, 0, 0.16679406, 0.41960785)
 
 [node name="DamageSource2" type="Area2D" parent="." unique_id=1337138075]
 position = Vector2(-10, 8.025)
@@ -169,5 +176,8 @@ collision_mask = 2
 script = ExtResource("5_frsag")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="DamageSource2" unique_id=2009895473]
+light_mask = 2
+visibility_layer = 4
 position = Vector2(10, -8.025)
 shape = SubResource("CapsuleShape2D_mrgda")
+debug_color = Color(0.96390647, 0, 0.49879408, 0.41960785)
