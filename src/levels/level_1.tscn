@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://dl7epy5kk7ve"]
 
-[ext_resource type="Texture2D" uid="uid://dkf8igvvf0akc" path="res://assets/textures/parallax/level_1/GrassLand_Background_1.png" id="1_077sa"]
+[ext_resource type="Texture2D" uid="uid://c2cd6uudr235k" path="res://assets/textures/parallax/level_1/GrassLand_Background_1.png" id="1_077sa"]
 [ext_resource type="PackedScene" uid="uid://cftm2cfok6rag" path="res://src/actors/player.tscn" id="1_fcumj"]
 [ext_resource type="PackedScene" uid="uid://bcvg5odpv4jei" path="res://src/actors/camera.tscn" id="2_ia7or"]
-[ext_resource type="Texture2D" uid="uid://2kl3iaki3m11" path="res://assets/textures/parallax/level_1/cloud_layer.png" id="2_r7usx"]
+[ext_resource type="Texture2D" uid="uid://cubla3pwgikw7" path="res://assets/textures/parallax/level_1/cloud_layer.png" id="2_svo37"]
 [ext_resource type="PackedScene" uid="uid://dhqu22ocmxqsp" path="res://src/actors/base_enemy.tscn" id="3_riplu"]
 [ext_resource type="Texture2D" uid="uid://17nirdk7mcal" path="res://assets/textures/parallax/level_1/GrassLand_Background_2.png" id="4_sblag"]
 [ext_resource type="Texture2D" uid="uid://8c4jxdiav5br" path="res://assets/sprites/tile/grass_terrain.png" id="4_vo5gq"]
@@ -162,7 +162,7 @@ autoscroll = Vector2(-5, 0)
 [node name="Sprite2D" type="Sprite2D" parent="Clouds" unique_id=207187633]
 z_index = -100
 position = Vector2(-18, 10)
-texture = ExtResource("2_r7usx")
+texture = ExtResource("2_svo37")
 centered = false
 
 [node name="Trees" type="Parallax2D" parent="." unique_id=925537630]

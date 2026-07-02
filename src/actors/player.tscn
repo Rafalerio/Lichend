@@ -317,6 +317,7 @@ radius = 6.0
 height = 19.5
 
 [node name="Player" type="CharacterBody2D" unique_id=1111965173 groups=["Player"]]
+scale = Vector2(1.15, 1.15)
 collision_layer = 2
 script = ExtResource("1_iairh")
 bullet_scene = ExtResource("2_wqefw")
@@ -347,7 +348,8 @@ shape = SubResource("CapsuleShape2D_wqefw")
 debug_color = Color(0.98853666, 0, 0.30609444, 0.41960785)
 
 [node name="Orb" type="Sprite2D" parent="." unique_id=2051468596]
-position = Vector2(12, 4)
+z_index = 10
+position = Vector2(12, 2.26087)
 texture = ExtResource("8_urqtb")
 script = ExtResource("9_wqefw")
 
